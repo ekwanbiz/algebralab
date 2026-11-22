@@ -3,32 +3,54 @@
 .tile{-webkit-user-select:none;-webkit-touch-callout:none;-webkit-user-drag:none}.tile.bank.chosen{outline:3px solid #55e8ff;outline-offset:4px;transform:translateY(-4px) scale(1.08)}.pan.armed{outline:2px dashed #5be3ff88;cursor:copy}body.is-dragging,body.is-dragging *{cursor:grabbing!important;user-select:none!important}.ghost{display:flex;align-items:center;gap:4px}.ghostcount{background:#11b884;color:#fff;font-weight:900;font-size:12px;border-radius:20px;padding:2px 7px;border:1px solid #2EE6A6}.zone.trash.target{background:#6a2840}.fmt{margin-top:8px;padding:9px 11px;border-radius:10px;background:#3b2f12;border:1px solid #d9a93a;color:#ffe3a3;font-size:12.5px;line-height:1.55}.fmt b{color:#fff3c4;font-size:13.5px}.fmt span{color:#e8cf91;font-size:11.5px}.formerr{margin-top:9px;padding:10px 11px;border-radius:10px;background:#4a2630;border:1px solid #e67a8b;color:#ffd1d7;font-size:12.5px;line-height:1.5}input.bad{border-color:#e67a8b;box-shadow:0 0 0 3px #e67a8b33}.toast{position:absolute;left:50%;top:10px;transform:translate(-50%,-8px);max-width:min(92%,520px);padding:8px 13px;border-radius:10px;background:#1D1836f2;border:1px solid #315f88;color:#e1efff;font-size:12.5px;line-height:1.45;text-align:center;z-index:5;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s}.toast.show{opacity:1;transform:translate(-50%,0)}.toast.warn{background:#4a2630f2;border-color:#e67a8b;color:#ffd1d7}.toast.good{background:#153f32f2;border-color:#35c38d;color:#b7f7d7}.control{padding:14px 18px;margin-bottom:16px}.ctl-row{display:grid;grid-template-columns:auto minmax(220px,1fr) auto;align-items:center;gap:8px 14px}.ctl-row .field{margin:0;white-space:nowrap}.ctl-inputs{display:flex;gap:8px}.ctl-inputs input{flex:1;min-width:0;font-size:18px;font-weight:700;padding:11px 14px}.ctl-inputs .primary{width:auto;margin:0;padding:11px 20px;white-space:nowrap}.ctl-row .fmt{margin:0}.ctl-row .formerr{grid-column:2/4;margin:0}
 .layout{grid-template-columns:minmax(0,1fr) 300px!important;align-items:start}.side{display:flex;flex-direction:column;gap:14px;position:sticky;top:14px}.side .result{margin:0}.actions{padding:14px}.actions .buttons{display:grid;grid-template-columns:1fr 1fr;margin-top:9px}.howto{padding:14px}.howto summary{cursor:pointer;font-weight:800;font-size:14px;margin-bottom:8px}.headline{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;padding:10px 14px}.headline strong{margin:0}.status{padding:4px 10px;border-radius:20px;background:#83e9ac1a;border:1px solid #83e9ac55}.status.bad{background:#ffd37c1a;border-color:#ffd37c55}.zones .zone{min-height:96px}
 @media(max-width:870px){.ctl-row{grid-template-columns:1fr}.ctl-row .formerr{grid-column:auto}.layout{grid-template-columns:1fr!important}.side{position:static}.control{padding:13px}.side .actions{order:-1}.eyebrow{font-size:10px;letter-spacing:.08em}}
-</style><style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style></head><body><div id="backAL" style="padding:calc(16px + env(safe-area-inset-top)) 16px 0;position:relative;z-index:50;max-width:1300px;margin:auto"><a href="../index.html#/simulasi" style="display:inline-flex;align-items:center;gap:10px;background:#FF6FB1;color:#2b0718;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #ff6fb144">&#8592; Kembali ke ALGEBRALAB</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script><div class="wrap">
 
-<section class="panel control">
- <div class="ctl-row">
-  <label class="field" for="input">MASUKKAN PERSAMAAN</label>
-  <div class="ctl-inputs"><input id="input" value="x + 3 = 7" spellcheck="false" autocomplete="off" aria-describedby="fmt formErr"><button class="primary" id="generate">Jana Timbangan</button></div>
-  <div class="fmt" id="fmt">⚠ Gunakan format <b>ax + b = c</b> <span>· contoh: x + 3 = 7 · 2x + 4 = 10</span></div>
-  <div class="formerr" id="formErr" role="alert" hidden></div>
- </div>
+/* ===== Padat satu skrin ===== */
+html,body{height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+#backAL{flex:none}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.wrap.be{flex:1;min-height:0;width:100%;max-width:1100px;display:flex;flex-direction:column;gap:8px;padding:10px 12px}
+.be .bar{flex:none}
+.be .ctl-inputs{display:flex;gap:8px}
+.be .ctl-inputs input{flex:1;min-width:0;font-size:18px;padding:9px 12px}
+.be .ctl-inputs .primary{width:auto;margin:0;padding:9px 18px}
+.be .formerr{margin-top:6px;padding:7px 10px;font-size:12.5px}
+.be .headline{flex:none;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:nowrap;margin:0;padding:7px 10px;border-radius:12px}
+.be .headline strong#equation{font-size:clamp(20px,3vw,28px);margin:0;white-space:nowrap}
+.be .status{font-size:11px;padding:3px 8px;white-space:nowrap}
+.be .result{margin:0 0 0 auto;display:flex;align-items:center;gap:6px;border-width:1.5px;border-radius:10px;padding:4px 10px;background:#10392f}
+.be .result b{font-size:10px;letter-spacing:.08em}.be .result strong{font-size:18px;margin:0;white-space:nowrap}
+.be .stage{flex:1;min-height:150px;height:auto!important;border-radius:14px}
+.be .zones{flex:none;display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0}
+.be .zone{min-height:0!important;flex-direction:row;gap:10px;padding:7px 10px;border-radius:12px}
+.be .zone b{font-size:12px;white-space:nowrap}.be .zone small{font-size:11px}
+.be .banktiles{gap:12px}
+.be .buttons{flex:none;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:0}
+.be .buttons button{padding:9px 6px;font-size:13px;border-radius:10px}
+@media(max-width:640px){
+ .wrap.be{padding:8px;gap:6px}
+ .be .ctl-inputs input{font-size:17px;padding:8px 10px}.be .ctl-inputs .primary{padding:8px 12px}
+ .be .headline{padding:6px 8px;gap:6px}.be .headline strong#equation{font-size:19px}
+ .be .status{font-size:9.5px;padding:2px 6px}
+ .be .result{padding:3px 8px}.be .result b{display:none}.be .result strong{font-size:16px}
+ .be .stage{min-height:130px}
+ .be .zone{padding:6px 8px;gap:8px}.be .zone small{display:none}.be .zone b{font-size:11px}
+ .be .banktiles .tile.x{width:30px;height:30px;font-size:16px}.be .banktiles .tile.unit{width:22px;height:22px;font-size:11px}
+ .be .buttons button{padding:8px 2px;font-size:11.5px}
+}
+</style><style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style></head><body><div id="backAL" style="padding:calc(16px + env(safe-area-inset-top)) 16px 0;position:relative;z-index:50;max-width:1300px;margin:auto"><a href="../index.html#/simulasi" style="display:inline-flex;align-items:center;gap:10px;background:#FF6FB1;color:#2b0718;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #ff6fb144">&#8592; Kembali ke ALGEBRALAB</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script><div class="wrap be">
+<section class="bar">
+ <div class="ctl-inputs"><label class="sr" for="input">Masukkan persamaan</label><input id="input" placeholder="contoh: 2x + 4 = 10" value="x + 3 = 7" spellcheck="false" autocomplete="off" aria-describedby="fmt formErr"><button class="primary" id="generate">Jana</button></div>
+ <div class="formerr" id="formErr" role="alert" hidden></div>
 </section>
-<div class="layout">
-<main class="panel">
- <div class="headline"><strong id="equation">x + 3 = 7</strong><span class="status" id="status">● SEIMBANG</span></div>
- <div class="stage" id="stage"><svg class="scale" id="scaleSvg" viewBox="0 0 720 440" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><defs><linearGradient id="steel" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#e2ebf5"/><stop offset=".5" stop-color="#a9bbd2"/><stop offset="1" stop-color="#6b7f9e"/></linearGradient></defs><path d="M360 150 V400" stroke="#64748b" stroke-width="13" stroke-linecap="round"/><path d="M290 428 H430 L406 400 H314 Z" fill="#64748b"/><g id="beam" class="beam"><rect x="70" y="144" width="580" height="12" rx="6" fill="url(#steel)"/></g><g id="hangL" class="hanger"><path d="M190 150 L55 330 M190 150 L325 330" stroke="#9bb0ce" stroke-width="3" fill="none"/><circle cx="190" cy="150" r="6" fill="#cbd5e1"/><path d="M55 330 Q190 410 325 330 Z" fill="#1d4ed8" fill-opacity=".75" stroke="#60a5fa" stroke-width="4" stroke-linejoin="round"/><ellipse cx="190" cy="330" rx="135" ry="11" fill="#3b82f6" stroke="#60a5fa" stroke-width="3"/></g><g id="hangR" class="hanger"><path d="M530 150 L395 330 M530 150 L665 330" stroke="#9bb0ce" stroke-width="3" fill="none"/><circle cx="530" cy="150" r="6" fill="#cbd5e1"/><path d="M395 330 Q530 410 665 330 Z" fill="#047857" fill-opacity=".75" stroke="#34d399" stroke-width="4" stroke-linejoin="round"/><ellipse cx="530" cy="330" rx="135" ry="11" fill="#10b981" stroke="#34d399" stroke-width="3"/></g><circle cx="360" cy="150" r="17" fill="#38bdf8" stroke="#b9efff" stroke-width="4"/></svg><div class="toast" id="notice" role="status" aria-live="polite"></div><div id="leftPan" class="pan left" data-drop="left" tabindex="0" aria-label="Dulang kiri"></div><div id="rightPan" class="pan right" data-drop="right" tabindex="0" aria-label="Dulang kanan"></div></div>
- <div class="zones">
-  <div class="zone bankzone" id="bank"><b>✦ BANK BLOK</b><div class="banktiles"><span class="tile x bank" data-source="bank" data-type="x" tabindex="0" aria-label="Tambah blok x">x</span><span class="tile unit bank" data-source="bank" data-type="unit" tabindex="0" aria-label="Tambah satu unit">1</span></div><small>Seret ke dulang untuk tambah</small></div>
-  <div class="zone trash" id="trash" data-drop="trash"><b>🗑 ZON BUANG</b><small>Seret blok keluar dari dulang untuk buang</small></div>
- </div>
-</main>
-<aside class="side">
- <div class="result" id="result"><b>HASIL AKHIR</b><strong id="answer">?</strong><small id="resultHint">Asingkan satu blok x dan seimbangkan kedua-dua belah</small></div>
- <div class="panel actions"><div class="eyebrow">TINDAKAN</div><div class="buttons"><button id="hint">💡 Petunjuk</button><button id="removeSelected">🗑 Buang Dipilih</button><button id="undo">↶ Undo</button><button id="reset">↺ Reset</button></div></div>
- <details class="panel howto" open><summary>Cara bermain</summary><div class="instructions">① <strong>Klik blok</strong> untuk memilih satu atau beberapa blok.<br>② <strong>Seret blok keluar dari dulang</strong> (atau ke Zon Buang) untuk menolak.<br>③ <strong>Seret dari Bank Blok</strong> ke dulang untuk menambah, atau klik blok bank kemudian klik dulang.<br>④ Buat tindakan sama di kedua-dua belah supaya kembali seimbang.</div></details>
-</aside>
+<div class="headline"><strong id="equation">x + 3 = 7</strong><span class="status" id="status">● SEIMBANG</span><div class="result" id="result"><b>HASIL</b><strong id="answer">?</strong><small id="resultHint" hidden>Asingkan satu blok x dan seimbangkan kedua-dua belah</small></div></div>
+<div class="stage" id="stage"><svg class="scale" id="scaleSvg" viewBox="0 0 720 440" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><defs><linearGradient id="steel" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#e2ebf5"/><stop offset=".5" stop-color="#a9bbd2"/><stop offset="1" stop-color="#6b7f9e"/></linearGradient></defs><path d="M360 150 V400" stroke="#64748b" stroke-width="13" stroke-linecap="round"/><path d="M290 428 H430 L406 400 H314 Z" fill="#64748b"/><g id="beam" class="beam"><rect x="70" y="144" width="580" height="12" rx="6" fill="url(#steel)"/></g><g id="hangL" class="hanger"><path d="M190 150 L55 330 M190 150 L325 330" stroke="#9bb0ce" stroke-width="3" fill="none"/><circle cx="190" cy="150" r="6" fill="#cbd5e1"/><path d="M55 330 Q190 410 325 330 Z" fill="#1d4ed8" fill-opacity=".75" stroke="#60a5fa" stroke-width="4" stroke-linejoin="round"/><ellipse cx="190" cy="330" rx="135" ry="11" fill="#3b82f6" stroke="#60a5fa" stroke-width="3"/></g><g id="hangR" class="hanger"><path d="M530 150 L395 330 M530 150 L665 330" stroke="#9bb0ce" stroke-width="3" fill="none"/><circle cx="530" cy="150" r="6" fill="#cbd5e1"/><path d="M395 330 Q530 410 665 330 Z" fill="#047857" fill-opacity=".75" stroke="#34d399" stroke-width="4" stroke-linejoin="round"/><ellipse cx="530" cy="330" rx="135" ry="11" fill="#10b981" stroke="#34d399" stroke-width="3"/></g><circle cx="360" cy="150" r="17" fill="#38bdf8" stroke="#b9efff" stroke-width="4"/></svg><div class="toast" id="notice" role="status" aria-live="polite"></div><div id="leftPan" class="pan left" data-drop="left" tabindex="0" aria-label="Dulang kiri"></div><div id="rightPan" class="pan right" data-drop="right" tabindex="0" aria-label="Dulang kanan"></div></div>
+<div class="zones">
+ <div class="zone bankzone" id="bank"><b>✦ BANK</b><div class="banktiles"><span class="tile x bank" data-source="bank" data-type="x" tabindex="0" aria-label="Tambah blok x">x</span><span class="tile unit bank" data-source="bank" data-type="unit" tabindex="0" aria-label="Tambah satu unit">1</span></div></div>
+ <div class="zone trash" id="trash" data-drop="trash"><b>🗑 ZON BUANG</b><small>Seret keluar dari dulang</small></div>
 </div>
-<div class="footer">Balance Equation · Blok 2.5D · Fasa 2.6</div></div><script>
+<div class="buttons"><button id="hint">💡 Petunjuk</button><button id="removeSelected">🗑 Buang</button><button id="undo">↶ Undo</button><button id="reset">↺ Reset</button></div>
+</div><script>
 'use strict';
 const $=id=>document.getElementById(id);
 let bankChoice=null;let start={a:1,b:3,c:7},state={left:{x:1,unit:3},right:{x:0,unit:7}},solution=4,selected=new Set(),undoStack=[],history=['Persamaan dijana'],pointer=null,suppressClick=false;
