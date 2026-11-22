@@ -229,7 +229,9 @@ main.wide{max-width:none;padding:26px 28px 24px}
 @media(max-height:700px){.splash{padding-top:calc(20px + env(safe-area-inset-top));padding-bottom:16px}.logo-big{width:104px!important;height:104px!important;border-radius:26px!important}.logo-big svg{width:78px!important;height:78px!important}.brand{margin:16px 0 8px!important;font-size:40px}.tagline{margin-bottom:8px}.sub{margin-bottom:16px}.sp-sims{margin-bottom:16px}.sp-sim{padding:12px 6px 10px}.btn.wide{padding:13px 18px;margin-bottom:10px}}
 /* ---------- Telefon ---------- */
 @media(max-width:860px){
- body.inquiz .bottomnav{display:none}
+ body.inquiz .bottomnav,body.insim .bottomnav{display:none}
+ body.insim main.wide{padding-bottom:calc(10px + env(safe-area-inset-bottom))}
+ body.insim .simframe{height:calc(100vh - 98px);height:calc(100dvh - 98px - env(safe-area-inset-top) - env(safe-area-inset-bottom))}
  body.inquiz main{padding-bottom:16px}
  .quizmode .qhead{margin-bottom:8px;gap:8px}.quizmode .qhead .t b{font-size:16px}.quizmode .qhead .t small{font-size:10px}
  .quizmode .qhead .iconbtn{width:38px;height:38px}.quizmode .starpill{padding:5px 10px}.quizmode .timer{padding:5px 10px}
@@ -569,11 +571,12 @@ function bindCommon(){const s=document.getElementById('snd');if(s)s.onclick=()=>
 /* =================== Penghala =================== */
 const TITLES={utama:'Utama',nota:'Nota',simulasi:'Simulasi',latihan:'Latihan',kuiz:'Kuiz',pasang:'Cara Pasang'};
 function route(){
- stopTimer();QS=null;document.body.classList.remove('inquiz');
+ stopTimer();QS=null;document.body.classList.remove('inquiz');document.body.classList.remove('insim');
  const [r,param]=(location.hash.replace(/^#\/?/,'')||'').split('/');
  if(!r){root.innerHTML=VIEWS.splash();document.title='ALGEBRALAB – Ungkapan & Persamaan Algebra';window.scrollTo(0,0);return}
  if(r==='pasang'){root.innerHTML=VIEWS.pasang();document.title='Cara Pasang · ALGEBRALAB';window.scrollTo(0,0);return}
  const key=VIEWS[r]&&r!=='splash'?r:'utama';
+ document.body.classList.toggle('insim',key==='simulasi'&&SIMS.some(x=>x.id===param));
  root.innerHTML=shell(key,VIEWS[key](param));document.title=(TITLES[key]||'Utama')+' · ALGEBRALAB';window.scrollTo(0,0);
  bindCommon();
  document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{location.hash='#/nota/'+b.dataset.tab});
