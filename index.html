@@ -26,22 +26,31 @@ svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke
 .c1{--c:var(--c1)}.c2{--c:var(--c2)}.c3{--c:var(--c3)}.cg{--c:var(--gold)}
 .hidden{display:none!important}
 
-/* ---------- Skrin pembuka ---------- */
-.splash{min-height:100vh;display:grid;grid-template-columns:1.1fr 1fr;align-items:center;gap:40px;max-width:1080px;margin:auto;padding:40px 32px}
-.logo-big{width:150px;height:150px;border-radius:34px;background:var(--sf);border:2px solid var(--bd2);display:grid;place-items:center;box-shadow:0 0 50px #2ee6a622,0 20px 40px #0007}
+/* ---------- Skrin pembuka (berpusat, gaya ISOMOVE) ---------- */
+.splash{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:calc(36px + env(safe-area-inset-top)) 20px calc(30px + env(safe-area-inset-bottom))}
+.sp-in{width:100%;max-width:520px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.logo-big{width:150px;height:150px;border-radius:34px;background:var(--sf);border:2px solid var(--bd2);display:grid;place-items:center;box-shadow:0 0 60px #2ee6a626,0 20px 40px #0007}
 .logo-big svg{width:112px;height:112px}
-.brand{font-size:clamp(46px,7vw,72px);font-weight:900;margin:22px 0 8px;line-height:1}
+.brand{font-size:clamp(44px,9vw,64px);font-weight:900;margin:24px 0 10px;line-height:1}
 .brand b{color:var(--c1)}
-.tagline{font-size:clamp(20px,2.6vw,26px);font-weight:800;margin:0 0 12px}
+.tagline{font-size:clamp(19px,4.6vw,23px);font-weight:800;margin:0 0 14px}
 .tagline span:nth-child(1){color:var(--c1)}.tagline span:nth-child(2){color:var(--c2)}.tagline span:nth-child(3){color:var(--c3)}
-.sub{color:var(--mu);font-size:15px;margin:0 0 22px}
-.cta{display:flex;gap:12px;flex-wrap:wrap}
+.sub{color:var(--mu);font-size:14px;margin:0 0 24px}
+.sp-sims{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;margin-bottom:24px}
+.sp-sim{position:relative;display:flex;flex-direction:column;align-items:center;gap:10px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:16px 8px 14px;transition:.2s}
+.sp-sim:hover{border-color:var(--c);transform:translateY(-3px)}
+.sp-sim .sq{width:44px;height:44px;border-radius:12px;background:var(--c);color:#140f24;display:grid;place-items:center}
+.sp-sim .sq svg{width:22px;height:22px;stroke-width:2.3}
+.sp-sim b{font-size:13.5px;line-height:1.25}
+.sp-sim .go{position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:color-mix(in srgb,var(--c) 22%,transparent);color:var(--c)}
+.sp-sim .go svg{width:12px;height:12px}
 .btn{display:inline-flex;align-items:center;gap:10px;border-radius:14px;padding:14px 22px;font-weight:800;border:1px solid transparent}
+.btn.wide{width:100%;justify-content:center;padding:16px 20px;font-size:17px;margin-bottom:12px}
 .btn.pri{background:var(--c1);color:#062018;box-shadow:0 8px 26px #2ee6a644}
 .btn.pri:hover{filter:brightness(1.08)}
 .btn.sec{background:var(--sf);border-color:var(--bd2);color:var(--tx)}
 .btn.sec:hover{background:var(--sf2)}
-.offline{display:flex;align-items:center;gap:8px;color:var(--mu);font-size:12.5px;margin-top:14px}
+.offline{display:flex;align-items:center;justify-content:center;gap:8px;color:var(--mu);font-size:12.5px;margin-top:6px}
 .offline svg{width:15px;height:15px}
 .simlist{display:flex;flex-direction:column;gap:14px}
 .simrow{display:flex;align-items:center;gap:16px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:16px 18px;transition:.2s}
@@ -217,6 +226,7 @@ main.wide{max-width:none;padding:26px 28px 24px}
 .view>*{animation:pop .35s both}
 .view>*:nth-child(2){animation-delay:.05s}.view>*:nth-child(3){animation-delay:.1s}
 
+@media(max-height:700px){.splash{padding-top:calc(20px + env(safe-area-inset-top));padding-bottom:16px}.logo-big{width:104px!important;height:104px!important;border-radius:26px!important}.logo-big svg{width:78px!important;height:78px!important}.brand{margin:16px 0 8px!important;font-size:40px}.tagline{margin-bottom:8px}.sub{margin-bottom:16px}.sp-sims{margin-bottom:16px}.sp-sim{padding:12px 6px 10px}.btn.wide{padding:13px 18px;margin-bottom:10px}}
 /* ---------- Telefon ---------- */
 @media(max-width:860px){
  body.inquiz .bottomnav{display:none}
@@ -251,8 +261,8 @@ main.wide{max-width:none;padding:26px 28px 24px}
  .simtop h1{font-size:23px}.simtabs{width:100%}.simtabs a{flex:1;justify-content:center;padding:9px 6px;font-size:12.5px;flex-direction:column;gap:3px;text-align:center}
  .simframe{height:calc(100vh - 220px);height:calc(100dvh - 220px - env(safe-area-inset-top));min-height:440px;border-radius:14px}
  .fullbtn{display:none}
- .splash{grid-template-columns:1fr;padding:calc(40px + env(safe-area-inset-top)) 22px 30px;gap:30px}
- .logo-big{width:118px;height:118px;border-radius:28px}.logo-big svg{width:88px;height:88px}
+ .logo-big{width:124px;height:124px;border-radius:30px}.logo-big svg{width:92px;height:92px}
+ .brand{margin-top:20px}
  .app{grid-template-columns:1fr}
  .side{display:none}
  main{padding:calc(26px + env(safe-area-inset-top)) 18px 120px}
@@ -456,12 +466,15 @@ function simPreview(kind){
  return`<svg viewBox="0 0 220 150"><g fill="none" stroke="#FFB547" stroke-width="3" stroke-linecap="round"><path d="M70 30C50 55 50 95 70 120M150 30c20 25 20 65 0 90"/></g><text x="110" y="85" text-anchor="middle" font-family="Arial" font-weight="900" font-size="30" fill="#FFB54788">?</text></svg>`}
 
 const VIEWS={
- splash(){return`<div class="splash"><div class="view"><div class="logo-big">${LOGO}</div><h1 class="brand h">ALGEBRA<b>LAB</b></h1>
+ splash(){return`<div class="splash"><div class="sp-in view">
+  <div class="logo-big">${LOGO}</div>
+  <h1 class="brand h">ALGEBRA<b>LAB</b></h1>
   <p class="tagline h"><span>Kumpul.</span> <span>Kembang.</span> <span>Seimbang!</span></p>
   <p class="sub">Ungkapan Algebra · Kembangan · Persamaan Linear</p>
-  <div class="cta"><a class="btn pri" href="#/utama">Jom Mula! ${I('arrow')}</a><a class="btn sec" href="#/pasang">${I('phone')}Cara Pasang di Telefon</a></div>
-  <p class="offline">${I('wifi')}Boleh digunakan tanpa internet</p></div>
-  <div class="simlist view">${SIMS.map(s=>`<a class="simrow ${s.cls}" href="#/simulasi/${s.id}" aria-label="Buka simulasi ${s.name}"><span class="sq">${I(s.icon)}</span><span class="t"><b>${s.name}</b><small>${s.short}</small></span><span class="go">${I('arrow')}</span></a>`).join('')}</div></div>`},
+  <div class="sp-sims">${SIMS.map(s=>`<a class="sp-sim ${s.cls}" href="#/simulasi/${s.id}" aria-label="Buka simulasi ${s.name}"><span class="go">${I('arrow')}</span><span class="sq">${I(s.icon)}</span><b>${s.name}</b></a>`).join('')}</div>
+  <a class="btn pri wide" href="#/utama">Jom Mula! ${I('arrow')}</a>
+  <a class="btn sec wide" href="#/pasang">${I('phone')}Cara Pasang di Telefon</a>
+  <p class="offline">${I('wifi')}Boleh digunakan tanpa internet</p></div></div>`},
  utama(){return head('ALGEBRALAB','Selamat datang!','Jom teroka dunia algebra.',starPill())+
   `<div class="card prog"><div class="top"><b>Kemajuan Saya</b><small>Set latihan lulus</small></div><div class="bars">${TOPICS.map(t=>`<div class="bar ${t.cls}"><div class="lab"><span>${t.name}</span><span>${S.prog[t.id]||0}/3</span></div><div class="track"><i style="width:${(S.prog[t.id]||0)/3*100}%"></i></div></div>`).join('')}</div></div>
   <div class="tiles">${[['nota','Nota','Konsep, contoh & kesilapan biasa','book','c1'],['simulasi','Simulasi','Lihat dan main dengan blok algebra','sim','c3'],['latihan','Latihan','Cuba soalan ikut topik','pen','c2'],['kuiz','Kuiz','Uji diri, kumpul bintang','trophy','cg']].map(([r,t,d,ic,c])=>`<a class="tile ${c}" href="#/${r}"><div class="ic">${I(ic)}</div><h2 class="h">${t}</h2><p>${d}</p></a>`).join('')}</div>`},
