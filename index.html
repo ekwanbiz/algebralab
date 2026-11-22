@@ -144,15 +144,18 @@ main{padding:42px 40px 60px;max-width:1000px;width:100%}
 .pgo{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;background:var(--c);color:#140f24;font-weight:800;font-size:13.5px;border-radius:10px;padding:8px 13px}
 .pgo svg{width:16px;height:16px}
 /* Simulasi satu halaman */
+.backbig{display:inline-flex;align-items:center;gap:10px;background:var(--c3);color:#2b0718;font-weight:900;font-size:17px;border-radius:14px;padding:12px 22px;box-shadow:0 8px 22px #ff6fb144}
+.backbig svg{width:22px;height:22px;stroke-width:2.6}
+.backbig:hover{filter:brightness(1.08)}
 main.wide{max-width:none;padding:26px 28px 24px}
-.simtop{display:flex;align-items:center;justify-content:flex-end;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.simtop{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:14px}
 .simtop h1{font-size:28px;margin:2px 0 0;font-weight:900}
 .simtabs{display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px;flex-wrap:wrap}
 .simtabs a{display:flex;align-items:center;gap:9px;padding:9px 14px;border-radius:12px;color:var(--mu);font-weight:750;font-size:14px}
 .simtabs a b{font-size:11px;letter-spacing:.06em;border:1px solid currentColor;border-radius:20px;padding:1px 7px}
 .simtabs a:hover{color:var(--tx);background:var(--sf2)}
 .simtabs a.on{background:var(--c);color:#140f24}
-.simframe{width:100%;height:calc(100vh - 100px);min-height:520px;border:1px solid var(--bd);border-radius:18px;background:var(--bg);display:block}
+.simframe{width:100%;height:calc(100vh - 118px);min-height:520px;border:1px solid var(--bd);border-radius:18px;background:var(--bg);display:block}
 .fullbtn{font-size:13px;color:var(--mu);display:inline-flex;align-items:center;gap:6px;border:1px solid var(--bd2);border-radius:10px;padding:7px 11px}
 .fullbtn:hover{color:var(--tx);background:var(--sf)}
 /* Latihan / Kuiz */
@@ -218,9 +221,10 @@ main.wide{max-width:none;padding:26px 28px 24px}
  .ppv{width:92px;height:70px;flex:none;border-radius:10px}.ppv svg{width:100%;max-height:66px}
  .ptx{flex:1;min-width:0}.ptx b{font-size:15.5px}.ptx small{font-size:12px}
  .pgo{align-self:center;padding:8px 10px;font-size:12.5px}
- main.wide{padding:16px 10px 96px}
+ main.wide{padding:14px 10px 96px}
+ .backbig{width:100%;justify-content:center;font-size:17px;padding:12px}
  .simtop h1{font-size:23px}.simtabs{width:100%}.simtabs a{flex:1;justify-content:center;padding:9px 6px;font-size:12.5px;flex-direction:column;gap:3px;text-align:center}
- .simframe{height:calc(100vh - 155px);min-height:440px;border-radius:14px}
+ .simframe{height:calc(100vh - 205px);min-height:440px;border-radius:14px}
  .fullbtn{display:none}
  .splash{grid-template-columns:1fr;padding:40px 22px 30px;gap:30px}
  .logo-big{width:118px;height:118px;border-radius:28px}.logo-big svg{width:88px;height:88px}
@@ -447,7 +451,7 @@ const VIEWS={
  simulasi(param){if(!SIMS.some(x=>x.id===param))return head('ALGEBRALAB','Simulasi','Pilih satu simulasi untuk dimulakan.','','c3')+
   `<div class="pick">${SIMS.map(x=>`<a class="pcard ${x.cls}" href="#/simulasi/${x.id}"><div class="ppv">${simPreview(x.pv)}</div><div class="ptx"><span class="pno">SIMULASI ${x.no}</span><b class="h">${x.name}</b><small>${x.short}</small></div><span class="pgo">Buka ${I('arrow')}</span></a>`).join('')}</div>`;
   const S1=SIMS.find(x=>x.id===param);
-  return`<div class="simtop"><h1 class="h" style="position:absolute;left:-9999px">Simulasi ${S1.name}</h1>
+  return`<div class="simtop"><h1 class="h" style="position:absolute;left:-9999px">Simulasi ${S1.name}</h1><a class="backbig" href="#/simulasi">${I('back')}Kembali</a>
   <a class="fullbtn" href="${S1.file}" target="_blank" rel="noopener">Skrin penuh ↗</a></div>
   <iframe class="simframe" src="${S1.file}" title="Simulasi ${S1.name}" loading="eager"></iframe>`},
  latihan(){stopTimer();QS=null;return head('ALGEBRALAB','Latihan','Pilih topik. Setiap set ada 5 soalan rawak.',soundBtn()+starPill(),'c2')+
