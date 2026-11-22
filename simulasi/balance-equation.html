@@ -38,17 +38,45 @@ body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidd
  .be .banktiles .tile.x{width:30px;height:30px;font-size:16px}.be .banktiles .tile.unit{width:22px;height:22px;font-size:11px}
  .be .buttons button{padding:8px 2px;font-size:11.5px}
 }
+
+/* Panduan & arahan */
+.be .guide{flex:none;display:flex;align-items:center;gap:9px;background:#2a2450;border:1px solid #3A3266;border-left:4px solid #FFD166;border-radius:12px;padding:7px 8px 7px 10px}
+.be .gnum{flex:none;min-width:26px;height:26px;border-radius:50%;background:#FFD166;color:#2b1d00;font-weight:900;font-size:13px;display:grid;place-items:center;padding:0 6px}
+.be .guide.done{border-left-color:#2EE6A6}.be .guide.done .gnum{background:#2EE6A6;color:#062018}
+.be .guide.warn{border-left-color:#FF7A8A}.be .guide.warn .gnum{background:#FF7A8A;color:#2b0710}
+.be .gtext{flex:1;min-width:0;font-size:13.5px;line-height:1.35;color:#EFEAFD}
+.be .gtext b{color:#FFD166}.be .guide.done .gtext b{color:#2EE6A6}.be .guide.warn .gtext b{color:#FFB0BA}
+.be .ghelp{flex:none;background:#161229;border:1px solid #3A3266;color:#EFEAFD;border-radius:9px;padding:6px 10px;font-size:12px;font-weight:800;white-space:nowrap}
+.helpmodal{position:fixed;inset:0;z-index:200;background:#0008;display:grid;place-items:center;padding:16px}
+.helpmodal[hidden]{display:none}
+.hbox{background:#161229;border:1px solid #3A3266;border-radius:18px;padding:18px 18px 16px;max-width:460px;width:100%;max-height:100%;overflow:auto;box-shadow:0 20px 50px #000a}
+.hbox h2{margin:0 0 8px;font-size:20px;color:#2EE6A6}
+.hbox .goal{background:#2ee6a614;border:1px solid #2ee6a644;border-radius:12px;padding:9px 11px;font-size:13.5px;line-height:1.5;margin:0 0 10px}
+.hbox ol{margin:0 0 12px;padding-left:20px;font-size:13.5px;line-height:1.55;color:#DCD5F5}.hbox li{margin:5px 0}
+.hbox .primary{width:100%;margin:0;padding:11px}
+@media(max-width:640px){.be .result b{display:inline!important;font-size:9px}.be .guide{padding:6px 6px 6px 8px;gap:7px}.be .gtext{font-size:12px}.be .gnum{min-width:22px;height:22px;font-size:11px}.be .ghelp{padding:5px 7px;font-size:11px}.hbox{padding:14px}.hbox ol,.hbox .goal{font-size:12.5px}}
 </style><style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style></head><body><div id="backAL" style="padding:calc(16px + env(safe-area-inset-top)) 16px 0;position:relative;z-index:50;max-width:1300px;margin:auto"><a href="../index.html#/simulasi" style="display:inline-flex;align-items:center;gap:10px;background:#FF6FB1;color:#2b0718;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #ff6fb144">&#8592; Kembali ke ALGEBRALAB</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script><div class="wrap be">
 <section class="bar">
  <div class="ctl-inputs"><label class="sr" for="input">Masukkan persamaan</label><input id="input" placeholder="contoh: 2x + 4 = 10" value="x + 3 = 7" spellcheck="false" autocomplete="off" aria-describedby="fmt formErr"><button class="primary" id="generate">Jana</button></div>
  <div class="formerr" id="formErr" role="alert" hidden></div>
 </section>
 <div class="headline"><strong id="equation">x + 3 = 7</strong><span class="status" id="status">● SEIMBANG</span><div class="result" id="result"><b>HASIL</b><strong id="answer">?</strong><small id="resultHint" hidden>Asingkan satu blok x dan seimbangkan kedua-dua belah</small></div></div>
+<div class="guide" id="guide"><span class="gnum" id="gstep">1</span><span class="gtext" id="gtext"></span><button class="ghelp" id="helpBtn" aria-label="Cara main">? Cara Main</button></div>
 <div class="stage" id="stage"><svg class="scale" id="scaleSvg" viewBox="0 0 720 440" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><defs><linearGradient id="steel" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#e2ebf5"/><stop offset=".5" stop-color="#a9bbd2"/><stop offset="1" stop-color="#6b7f9e"/></linearGradient></defs><path id="post" d="M360 150 V400" stroke="#64748b" stroke-width="13" stroke-linecap="round"/><path id="base" d="M290 428 H430 L406 400 H314 Z" fill="#64748b"/><g id="beam" class="beam"><rect id="beamR" x="70" y="144" width="580" height="12" rx="6" fill="url(#steel)"/></g><g id="hangL" class="hanger"><path d="M190 150 L55 330 M190 150 L325 330" stroke="#9bb0ce" stroke-width="3" fill="none"/><circle cx="190" cy="150" r="6" fill="#cbd5e1"/><path d="M55 330 Q190 410 325 330 Z" fill="#1d4ed8" fill-opacity=".75" stroke="#60a5fa" stroke-width="4" stroke-linejoin="round"/><ellipse cx="190" cy="330" rx="135" ry="11" fill="#3b82f6" stroke="#60a5fa" stroke-width="3"/></g><g id="hangR" class="hanger"><path d="M530 150 L395 330 M530 150 L665 330" stroke="#9bb0ce" stroke-width="3" fill="none"/><circle cx="530" cy="150" r="6" fill="#cbd5e1"/><path d="M395 330 Q530 410 665 330 Z" fill="#047857" fill-opacity=".75" stroke="#34d399" stroke-width="4" stroke-linejoin="round"/><ellipse cx="530" cy="330" rx="135" ry="11" fill="#10b981" stroke="#34d399" stroke-width="3"/></g><circle id="pivot" cx="360" cy="150" r="17" fill="#38bdf8" stroke="#b9efff" stroke-width="4"/></svg><div class="toast" id="notice" role="status" aria-live="polite"></div><div id="leftPan" class="pan left" data-drop="left" tabindex="0" aria-label="Dulang kiri"></div><div id="rightPan" class="pan right" data-drop="right" tabindex="0" aria-label="Dulang kanan"></div></div>
 <div class="zones">
  <div class="zone bankzone" id="bank"><b>✦ BANK</b><div class="banktiles"><span class="tile x bank" data-source="bank" data-type="x" tabindex="0" aria-label="Tambah blok x">x</span><span class="tile unit bank" data-source="bank" data-type="unit" tabindex="0" aria-label="Tambah satu unit">1</span></div></div>
  <div class="zone trash" id="trash" data-drop="trash"><b>🗑 ZON BUANG</b><small>Seret keluar dari dulang</small></div>
 </div>
+<div class="helpmodal" id="helpModal" hidden role="dialog" aria-modal="true" aria-labelledby="helpTitle"><div class="hbox">
+<h2 id="helpTitle">⚖️ Cara Main</h2>
+<p class="goal">🎯 <b>Matlamat:</b> tinggalkan <b>satu blok x</b> di dulang kiri, dan <b>unit sahaja</b> di dulang kanan. Bilangan unit di kanan = <b>nilai x</b>.</p>
+<ol>
+<li><b>Buang blok:</b> seret blok keluar dari dulang (ke Zon Buang). Atau klik beberapa blok untuk pilih, kemudian tekan <b>🗑 Buang</b>.</li>
+<li><b>Tambah blok:</b> seret blok dari <b>Bank</b> ke dulang. Atau klik blok di Bank, kemudian klik dulang.</li>
+<li><b>Peraturan emas:</b> apa yang anda buat di satu dulang, <b>buat juga di dulang yang lain</b> supaya timbangan kekal seimbang.</li>
+<li>Ikut jalur panduan di bawah persamaan. Tekan <b>↶ Undo</b> untuk batal langkah terakhir, <b>↺ Reset</b> untuk mula semula.</li>
+</ol>
+<button class="primary" id="helpClose">Faham, jom mula!</button></div></div>
 <div class="buttons"><button id="hint">💡 Petunjuk</button><button id="removeSelected">🗑 Buang</button><button id="undo">↶ Undo</button><button id="reset">↺ Reset</button></div>
 </div><script>
 'use strict';
@@ -148,4 +176,25 @@ window.addEventListener('blur',()=>{if(pointer){endPointer();render()}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&pointer){endPointer();render();return}if((e.key==='Enter'||e.key===' ')&&e.target.matches('.tile[data-source]')){e.preventDefault();const t=e.target;if(t.dataset.source!=='bank'){if(selected.has(t.dataset.key))selected.delete(t.dataset.key);else selected.add(t.dataset.key);render()}else{bankChoice=t.dataset.type;markBank();tell('Blok dipilih. Tekan Enter pada dulang kiri atau kanan untuk tambah.','good')}}if((e.key==='Enter'||e.key===' ')&&e.target.matches('.pan')&&bankChoice){e.preventDefault();change('bank',e.target.dataset.drop,bankChoice);bankChoice=null;markBank()}});
 window.addEventListener('resize',()=>render());
 render();
+
+// ===== Panduan langkah demi langkah =====
+function unitTxt(n,t){return n+' '+(t==='x'?'blok x':'unit')}
+function updateGuide(){const g=$('guide');if(!g)return;const L=state.left,R=state.right,ok=balanced();let n='1',cls='',t='';
+ const done=ok&&L.x===1&&L.unit===0&&R.x===0;
+ if(done){n='✓';cls='done';t='<b>Tahniah! x = '+R.unit+'.</b> Satu blok x sama berat dengan '+R.unit+' unit.'}
+ else if(!ok){cls='warn';n='!';const last=history[history.length-1]||'';const m=last.match(/^(Buang|Tambah) (\d+) (blok x|unit) (dari|ke) (kiri|kanan)/);
+  if(m){const other=m[5]==='kiri'?'KANAN':'KIRI';t='Timbangan condong! Sekarang <b>'+m[1].toLowerCase()+' '+m[2]+' '+m[3]+' '+(m[1]==='Buang'?'dari':'ke')+' dulang '+other+'</b> juga supaya seimbang semula.'}
+  else t='Timbangan condong! Buat perkara yang <b>sama</b> di dulang yang satu lagi.'}
+ else if(L.unit>0&&L.x>0){n='1';t='<b>Buang '+L.unit+' unit</b> 🟡 dari dulang <b>KIRI</b> — seret keluar dari dulang, atau klik blok kemudian tekan <b>Buang</b>.'}
+ else if(R.x>0&&L.x>0){n='1';t='<b>Buang '+R.x+' blok x</b> dari dulang <b>KANAN</b>, kemudian buang jumlah yang sama dari KIRI.'}
+ else if(L.x>1&&L.unit===0&&R.x===0){n='2';cls='done';t='Kini '+L.x+'x = '+R.unit+'. Bahagi sama rata: <b>x = '+R.unit+' ÷ '+L.x+' = '+solution+'</b>.'}
+ else{n='?';t='Tekan <b>↺ Reset</b> untuk mula semula.'}
+ g.className='guide'+(cls?' '+cls:'');$('gstep').textContent=n;$('gtext').innerHTML=t}
+{const _r=render;render=function(){_r.apply(this,arguments);updateGuide()}}
+function showHelp(v){$('helpModal').hidden=!v;if(v)$('helpClose').focus()}
+$('helpBtn').onclick=()=>showHelp(true);$('helpClose').onclick=()=>{showHelp(false);try{localStorage.setItem('al-be-help','1')}catch(e){}};
+$('helpModal').addEventListener('click',e=>{if(e.target.id==='helpModal')$('helpClose').click()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('helpModal').hidden)$('helpClose').click()});
+updateGuide();
+try{if(!localStorage.getItem('al-be-help'))showHelp(true)}catch(e){}
 </script><script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script></body></html>
