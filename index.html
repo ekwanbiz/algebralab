@@ -2,7 +2,7 @@
 <html lang="ms">
 <head>
 <meta charset="utf-8"><meta name="color-scheme" content="dark">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#0E0B1A">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -276,7 +276,7 @@ main.wide{max-width:none;padding:26px 28px 24px}
 }
 @media(max-width:420px){.simcard{flex-direction:column;align-items:stretch}.simcard .pv{width:100%}}
 </style>
-</head>
+<style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style></head>
 <body>
 <noscript><p style="padding:20px">Aplikasi ini memerlukan JavaScript. Sila aktifkan JavaScript dalam pelayar anda.</p></noscript>
 <div id="root"></div>
@@ -572,5 +572,5 @@ document.addEventListener('click',e=>{const l=e.target.closest('a[href^="#/"]');
 route();
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
-</body>
+<script id="nozoomjs">(function(){var p=function(e){e.preventDefault()};['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,p,{passive:false})});document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault()},{passive:false});document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&['+','-','=','0','_'].indexOf(e.key)>=0)e.preventDefault()});})();</script></body>
 </html>
