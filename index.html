@@ -235,6 +235,12 @@ main.wide{max-width:none;padding:26px 28px 24px}
  .quizmode .qfoot #fb{flex:1;min-width:0}
  .quizmode .fb{padding:8px 10px;font-size:12px;line-height:1.45}.quizmode .fb b.big{font-size:14px;margin-bottom:2px}
  .quizmode .qfoot #nextQ{padding:10px 12px;font-size:14px;flex:none}
+ .practmode .ainput{padding:11px;font-size:19px;border-radius:12px}
+ .practmode .ahelp{font-size:11px;margin:5px 2px 8px}
+ .practmode .arow .btn{padding:11px 10px;font-size:14px}
+ .practmode #fb .fb{margin-top:8px;padding:8px 10px;font-size:12px;line-height:1.45}.practmode #fb .fb b.big{font-size:14px;margin-bottom:2px}
+ .practmode .blocks{margin-top:8px;gap:5px}.practmode .blk{padding:4px 8px;font-size:13px;border-width:1.5px}
+ .practmode .ahelp{display:none}
  .pick{grid-template-columns:1fr;gap:10px}
  .pcard{flex-direction:row;align-items:center;padding:10px;gap:12px}
  .ppv{width:92px;height:70px;flex:none;border-radius:10px}.ppv svg{width:100%;max-height:66px}
@@ -501,8 +507,8 @@ function renderQ(){
  let right;
  if(QS.quiz){const ch=choicesFor(Q);QS.ch=ch;right=`<div class="alab">Pilih jawapan</div><div class="choices">${ch.list.map((c,i)=>`<button class="choice" data-c="${i}">${c}</button>`).join('')}</div><div class="qfoot"><div id="fb"></div><button class="btn go2 hidden" id="nextQ">${QS.i===n-1?'Keputusan':'Seterusnya'} ${I('arrow')}</button></div>`}
  else right=`<div class="alab">Jawapan anda</div><input class="ainput" id="ans" ${Q.kind==='num'?'inputmode="text" placeholder="x = ?"':'placeholder="contoh: 3x − 2y + 4"'} autocomplete="off" spellcheck="false" aria-label="Jawapan"><p class="ahelp">${Q.kind==='num'?'Taip nilai x sahaja, contoh: 5 atau −3':'Taip jawapan paling ringkas. Gunakan x² atau x^2 untuk kuasa dua.'}</p>
-  <div class="arow"><button class="btn ghost" id="hintB">${I('bulb')}Petunjuk</button><button class="btn go2" id="checkB">Semak Jawapan</button></div><div id="fb"></div><div class="arow" style="margin-top:12px"><button class="btn go2 hidden" id="nextQ">${QS.i===n-1?'Lihat Keputusan':'Seterusnya'} ${I('arrow')}</button></div>`;
- v.className='view '+cls+(QS.quiz?' quizmode':'');document.body.classList.toggle('inquiz',!!QS.quiz);window.scrollTo(0,0);
+  <div class="arow" id="actRow"><button class="btn ghost" id="hintB">${I('bulb')}Petunjuk</button><button class="btn go2" id="checkB">Semak Jawapan</button></div><div class="arow hidden" id="nextRow"><button class="btn go2 hidden" id="nextQ">${QS.i===n-1?'Lihat Keputusan':'Seterusnya'} ${I('arrow')}</button></div><div id="fb"></div>`;
+ v.className='view '+cls+' quizmode'+(QS.quiz?'':' practmode');document.body.classList.add('inquiz');window.scrollTo(0,0);
  v.innerHTML=`<div class="qhead ${cls}"><button class="iconbtn" id="quitQ" aria-label="Kembali ke menu">${I('back')}</button><div class="t"><small>${QS.quiz?'KUIZ PANTAS · '+T.name.toUpperCase():'LATIHAN · '+T.name.toUpperCase()}</small><b class="h">Soalan ${QS.i+1} / ${n}</b></div>${QS.quiz?`<span class="timer" id="tm">${I('clock')}<span>60</span></span>`:''}${starPill()}${soundBtn()}</div>
  <div class="qbar ${cls}"><i style="width:${(QS.i)/n*100}%"></i></div>
  <div class="qwrap ${cls}"><div class="card"><p class="qtext">${Q.q}</p><div class="qexpr h">${Q.expr}</div>${Q.blocks&&!QS.quiz?blocksHTML(Q.blocks):''}</div><div>${right}</div></div>`;
@@ -525,7 +531,7 @@ function check(){
  inp.classList.add(ok?'ok':'no');beep(ok);
  if(ok){QS.score++;S.stars++;save();updStars()}
  fb.innerHTML=ok?`<div class="fb ok"><b class="big">✓ Betul! +1 bintang</b>${Q.sol}</div>`:`<div class="fb no"><b class="big">✗ Belum tepat</b>Jawapan betul: <b>${Q.ansText}</b><br>${Q.sol}</div>`;
- document.getElementById('nextQ').classList.remove('hidden');document.getElementById('nextQ').focus()}
+ document.getElementById('actRow').classList.add('hidden');document.getElementById('nextRow').classList.remove('hidden');document.getElementById('nextQ').classList.remove('hidden');document.getElementById('nextQ').focus()}
 function answerQuiz(i){
  stopTimer();const Q=QS.qs[QS.i],ch=QS.ch,fb=document.getElementById('fb');const ok=i>=0&&ch.list[i]===ch.right;
  document.querySelectorAll('.choice').forEach((b,j)=>{b.disabled=true;if(ch.list[j]===ch.right)b.classList.add('ok');else if(j===i)b.classList.add('no')});
