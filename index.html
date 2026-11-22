@@ -132,6 +132,18 @@ main{padding:42px 40px 60px;max-width:1000px;width:100%}
 .simcard.soon .btn{background:var(--sf2);color:var(--mu);cursor:default}
 .badge-soon{display:inline-block;font-size:11px;font-weight:850;letter-spacing:.08em;color:var(--c2);border:1px solid #ffb54755;border-radius:20px;padding:3px 9px;margin-bottom:8px}
 
+/* Simulasi satu halaman */
+main.wide{max-width:none;padding:26px 28px 24px}
+.simtop{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.simtop h1{font-size:28px;margin:2px 0 0;font-weight:900}
+.simtabs{display:flex;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px;flex-wrap:wrap}
+.simtabs a{display:flex;align-items:center;gap:9px;padding:9px 14px;border-radius:12px;color:var(--mu);font-weight:750;font-size:14px}
+.simtabs a b{font-size:11px;letter-spacing:.06em;border:1px solid currentColor;border-radius:20px;padding:1px 7px}
+.simtabs a:hover{color:var(--tx);background:var(--sf2)}
+.simtabs a.on{background:var(--c);color:#140f24}
+.simframe{width:100%;height:calc(100vh - 116px);min-height:520px;border:1px solid var(--bd);border-radius:18px;background:var(--bg);display:block}
+.fullbtn{font-size:13px;color:var(--mu);display:inline-flex;align-items:center;gap:6px;border:1px solid var(--bd2);border-radius:10px;padding:7px 11px}
+.fullbtn:hover{color:var(--tx);background:var(--sf)}
 /* Latihan / Kuiz */
 .lgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px}
 .lcard{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:18px}
@@ -190,6 +202,10 @@ main{padding:42px 40px 60px;max-width:1000px;width:100%}
 
 /* ---------- Telefon ---------- */
 @media(max-width:860px){
+ main.wide{padding:16px 10px 96px}
+ .simtop h1{font-size:23px}.simtabs{width:100%}.simtabs a{flex:1;justify-content:center;padding:9px 6px;font-size:12.5px;flex-direction:column;gap:3px;text-align:center}
+ .simframe{height:calc(100vh - 212px);min-height:440px;border-radius:14px}
+ .fullbtn{display:none}
  .splash{grid-template-columns:1fr;padding:40px 22px 30px;gap:30px}
  .logo-big{width:118px;height:118px;border-radius:28px}.logo-big svg{width:88px;height:88px}
  .app{grid-template-columns:1fr}
@@ -251,9 +267,9 @@ const TOPICS=[
  {id:'kembangan',name:'Kembangan',short:'Buka kurungan dengan betul',cls:'c2',icon:'brackets'},
  {id:'persamaan',name:'Persamaan Linear',short:'Cari nilai x secara seimbang',cls:'c3',icon:'scale'}];
 const SIMS=[
- {file:'simulasi/algebra-tiles.html',name:'Algebra Tiles',desc:'Klik blok x, y, x², y² dan unit untuk mengumpulkan sebutan sejenis. Blok positif dan negatif saling membatalkan.',short:'Kumpul blok sebutan sejenis',cls:'c1',icon:'blocks',pv:'at',no:'01'},
- {file:'simulasi/balance-equation.html',name:'Balance Equation',desc:'Seret blok x dan unit pada timbangan. Buat operasi yang sama di kedua-dua belah untuk cari x.',short:'Seimbangkan timbangan, cari x',cls:'c3',icon:'scale',pv:'be',no:'02'},
- {file:'simulasi/variable-explorer.html',name:'Variable Explorer',desc:'Lihat sebutan sejenis bergabung, kurungan dikembangkan dan persamaan diselesaikan langkah demi langkah.',short:'Kumpul, kembang & selesaikan',cls:'c2',icon:'brackets',pv:'ve',no:'03'}];
+ {id:'tiles',file:'simulasi/algebra-tiles.html',name:'Algebra Tiles',desc:'Klik blok x, y, x², y² dan unit untuk mengumpulkan sebutan sejenis. Blok positif dan negatif saling membatalkan.',short:'Kumpul blok sebutan sejenis',cls:'c1',icon:'blocks',pv:'at',no:'01'},
+ {id:'balance',file:'simulasi/balance-equation.html',name:'Balance Equation',desc:'Seret blok x dan unit pada timbangan. Buat operasi yang sama di kedua-dua belah untuk cari x.',short:'Seimbangkan timbangan, cari x',cls:'c3',icon:'scale',pv:'be',no:'02'},
+ {id:'explorer',file:'simulasi/variable-explorer.html',name:'Variable Explorer',desc:'Lihat sebutan sejenis bergabung, kurungan dikembangkan dan persamaan diselesaikan langkah demi langkah.',short:'Kumpul, kembang & selesaikan',cls:'c2',icon:'brackets',pv:'ve',no:'03'}];
 
 /* =================== Simpanan =================== */
 const KEY='algebralab-v1';
@@ -386,7 +402,7 @@ function shell(route,inner){
  return `<div class="app"><aside class="side"><a class="logo h" href="#/" aria-label="ALGEBRALAB – skrin pembuka"><span class="mk">${LOGO}</span><span>ALGEBRA<b>LAB</b></span></a>
  <nav class="nav" aria-label="Navigasi utama">${NAV.map(([r,t,ic])=>`<a href="#/${r}" class="${r==='simulasi'?'sim ':''}${route===r?'on':''}">${I(ic)}<span>${t}</span></a>`).join('')}</nav>
  <p class="offline">${I('wifi')}Boleh digunakan tanpa internet</p></aside>
- <main class="view" id="view">${inner}</main>
+ <main class="view${route==='simulasi'?' wide':''}" id="view">${inner}</main>
  <nav class="bottomnav" aria-label="Navigasi telefon">${NAV.map(([r,t,ic])=>r==='simulasi'?`<a href="#/simulasi" class="fab ${route===r?'on':''}"><span class="c">${I(ic)}</span>${t}</a>`:`<a href="#/${r}" class="${route===r?'on':''}">${I(ic)}${t}</a>`).join('')}</nav></div>`}
 function simPreview(kind){
  if(kind==='ve')return`<svg viewBox="0 0 220 150"><g font-family="Arial" font-weight="800" font-size="13" text-anchor="middle"><rect x="18" y="22" width="40" height="28" rx="7" fill="#5b3fc9" stroke="#b9a0ff" stroke-width="2"/><text x="38" y="41" fill="#fff">3x</text><rect x="64" y="22" width="40" height="28" rx="7" fill="#9a6a12" stroke="#ffd07a" stroke-width="2"/><text x="84" y="41" fill="#fff">+2y</text><rect x="110" y="22" width="40" height="28" rx="7" fill="#5b3fc9" stroke="#b9a0ff" stroke-width="2"/><text x="130" y="41" fill="#fff">+5x</text><rect x="156" y="22" width="44" height="28" rx="7" fill="#9a6a12" stroke="#ffd07a" stroke-width="2"/><text x="178" y="41" fill="#fff">−4y</text><path d="M38 54 70 92M130 54 86 92M84 54 140 92M178 54 154 92" stroke="#A39BC6" stroke-dasharray="3 3" stroke-width="1.5"/><rect x="52" y="96" width="50" height="32" rx="8" fill="#5b3fc9" stroke="#b9a0ff" stroke-width="2"/><text x="77" y="117" fill="#fff" font-size="15">8x</text><rect x="120" y="96" width="50" height="32" rx="8" fill="#9a6a12" stroke="#ffd07a" stroke-width="2"/><text x="145" y="117" fill="#fff" font-size="15">−2y</text></g></svg>`;
@@ -400,7 +416,7 @@ const VIEWS={
   <p class="sub">Ungkapan Algebra · Kembangan · Persamaan Linear</p>
   <div class="cta"><a class="btn pri" href="#/utama">Jom Mula! ${I('arrow')}</a><a class="btn sec" href="#/pasang">${I('phone')}Cara Pasang di Telefon</a></div>
   <p class="offline">${I('wifi')}Boleh digunakan tanpa internet</p></div>
-  <div class="simlist view">${SIMS.map(s=>`<a class="simrow ${s.cls} ${s.soon?'soon':''}" ${s.file?`href="${s.file}"`:''} aria-label="Buka simulasi ${s.name}"><span class="sq">${I(s.icon)}</span><span class="t"><b>${s.name}</b><small>${s.short}</small></span><span class="go">${I('arrow')}</span></a>`).join('')}</div></div>`},
+  <div class="simlist view">${SIMS.map(s=>`<a class="simrow ${s.cls}" href="#/simulasi/${s.id}" aria-label="Buka simulasi ${s.name}"><span class="sq">${I(s.icon)}</span><span class="t"><b>${s.name}</b><small>${s.short}</small></span><span class="go">${I('arrow')}</span></a>`).join('')}</div></div>`},
  utama(){return head('ALGEBRALAB','Selamat datang!','Jom teroka dunia algebra.',starPill())+
   `<div class="card prog"><div class="top"><b>Kemajuan Saya</b><small>Set latihan lulus</small></div><div class="bars">${TOPICS.map(t=>`<div class="bar ${t.cls}"><div class="lab"><span>${t.name}</span><span>${S.prog[t.id]||0}/3</span></div><div class="track"><i style="width:${(S.prog[t.id]||0)/3*100}%"></i></div></div>`).join('')}</div></div>
   <div class="tiles">${[['nota','Nota','Konsep, contoh & kesilapan biasa','book','c1'],['simulasi','Simulasi','Lihat dan main dengan blok algebra','sim','c3'],['latihan','Latihan','Cuba soalan ikut topik','pen','c2'],['kuiz','Kuiz','Uji diri, kumpul bintang','trophy','cg']].map(([r,t,d,ic,c])=>`<a class="tile ${c}" href="#/${r}"><div class="ic">${I(ic)}</div><h2 class="h">${t}</h2><p>${d}</p></a>`).join('')}</div>`},
@@ -411,9 +427,12 @@ const VIEWS={
    <div class="card"><h2 class="h">Sifat</h2><div class="props">${N.props.map(([a,b])=>`<div class="prop"><span class="ck">${I('check')}</span><span><b>${a}</b><small>${b}</small></span></div>`).join('')}</div></div></div>
   <div class="col"><div class="card"><h2 class="h">Rajah</h2><div class="fig">${RAJAH[tid]}</div><p class="cap">${N.cap}</p></div><div class="card"><h2 class="h">Contoh</h2>${N.ex}</div>
    <div class="card warn"><h2 class="h">Kesilapan Biasa</h2><ul>${N.err.map(e=>`<li>${e}</li>`).join('')}</ul></div>
-   <a class="btn full ${T.cls}" href="${sim.file}">Cuba Simulasi ${sim.name} ${I('arrow')}</a></div></div>`},
- simulasi(){return head('ALGEBRALAB','Simulasi','Pilih satu simulasi untuk dimulakan.','','c3')+
-  `<div class="simgrid">${SIMS.map(s=>`<${s.file?'a':'div'} class="simcard ${s.cls} ${s.soon?'soon':''}" ${s.file?`href="${s.file}"`:''}><div class="pv">${simPreview(s.pv)}</div><div><span class="badge-soon" style="color:var(--c);border-color:var(--c)">SIMULASI ${s.no}</span><h2 class="h">${s.name}</h2><p>${s.desc}</p><span class="btn">${s.soon?'Belum tersedia':'Buka '+I('arrow')}</span></div></${s.file?'a':'div'}>`).join('')}</div>`},
+   <a class="btn full ${T.cls}" href="#/simulasi/${sim.id}">Cuba Simulasi ${sim.name} ${I('arrow')}</a></div></div>`},
+ simulasi(param){const S1=SIMS.find(x=>x.id===param)||SIMS[0];
+  return`<div class="simtop"><h1 class="h" style="position:absolute;left:-9999px">Simulasi ${S1.name}</h1>
+  <nav class="simtabs" aria-label="Pilih simulasi">${SIMS.map(x=>`<a class="${x.cls} ${x.id===S1.id?'on':''}" href="#/simulasi/${x.id}"><b>${x.no}</b>${x.name}</a>`).join('')}</nav>
+  <a class="fullbtn" href="${S1.file}" target="_blank" rel="noopener">Skrin penuh ↗</a></div>
+  <iframe class="simframe" src="${S1.file}" title="Simulasi ${S1.name}" loading="eager"></iframe>`},
  latihan(){stopTimer();QS=null;return head('ALGEBRALAB','Latihan','Pilih topik. Setiap set ada 5 soalan rawak.',soundBtn()+starPill(),'c2')+
   `<div class="lgrid">${TOPICS.map(t=>{const b=S.best[t.id];return`<div class="lcard ${t.cls}"><div class="hd"><span class="sq">${I(t.icon)}</span><div><h2 class="h">${t.name}</h2><small>${b==null?'Belum dicuba':'Markah terbaik: '+b+'/5'}</small></div></div><button class="btn topic" data-start="${t.id}">Mula Latihan ${I('arrow')}</button></div>`}).join('')}</div>
   <div class="info">${I('star')}<span>Soalan peringkat <b>asas</b>. Setiap jawapan betul memberi <b>1 bintang</b>. Dapatkan sekurang-kurangnya <b>3/5</b> untuk lulus satu set.</span></div>`},
