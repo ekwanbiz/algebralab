@@ -132,6 +132,17 @@ main{padding:42px 40px 60px;max-width:1000px;width:100%}
 .simcard.soon .btn{background:var(--sf2);color:var(--mu);cursor:default}
 .badge-soon{display:inline-block;font-size:11px;font-weight:850;letter-spacing:.08em;color:var(--c2);border:1px solid #ffb54755;border-radius:20px;padding:3px 9px;margin-bottom:8px}
 
+/* Pilihan simulasi (kecil, satu skrin) */
+.pick{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:900px}
+.pcard{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:10px;transition:.2s}
+.pcard:hover{border-color:var(--c);transform:translateY(-3px)}
+.ppv{background:var(--sf3);border-radius:12px;height:120px;display:grid;place-items:center;overflow:hidden}
+.ppv svg{width:78%;height:auto;max-height:110px}
+.ptx{display:flex;flex-direction:column;gap:2px}
+.pno{font-size:10.5px;font-weight:850;letter-spacing:.1em;color:var(--c)}
+.ptx b{font-size:17px;color:var(--tx)}.ptx small{color:var(--mu);font-size:12.5px}
+.pgo{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;background:var(--c);color:#140f24;font-weight:800;font-size:13.5px;border-radius:10px;padding:8px 13px}
+.pgo svg{width:16px;height:16px}
 /* Simulasi satu halaman */
 main.wide{max-width:none;padding:26px 28px 24px}
 .simtop{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:14px}
@@ -202,6 +213,11 @@ main.wide{max-width:none;padding:26px 28px 24px}
 
 /* ---------- Telefon ---------- */
 @media(max-width:860px){
+ .pick{grid-template-columns:1fr;gap:10px}
+ .pcard{flex-direction:row;align-items:center;padding:10px;gap:12px}
+ .ppv{width:92px;height:70px;flex:none;border-radius:10px}.ppv svg{width:100%;max-height:66px}
+ .ptx{flex:1;min-width:0}.ptx b{font-size:15.5px}.ptx small{font-size:12px}
+ .pgo{align-self:center;padding:8px 10px;font-size:12.5px}
  main.wide{padding:16px 10px 96px}
  .simtop h1{font-size:23px}.simtabs{width:100%}.simtabs a{flex:1;justify-content:center;padding:9px 6px;font-size:12.5px;flex-direction:column;gap:3px;text-align:center}
  .simframe{height:calc(100vh - 212px);min-height:440px;border-radius:14px}
@@ -428,7 +444,9 @@ const VIEWS={
   <div class="col"><div class="card"><h2 class="h">Rajah</h2><div class="fig">${RAJAH[tid]}</div><p class="cap">${N.cap}</p></div><div class="card"><h2 class="h">Contoh</h2>${N.ex}</div>
    <div class="card warn"><h2 class="h">Kesilapan Biasa</h2><ul>${N.err.map(e=>`<li>${e}</li>`).join('')}</ul></div>
    <a class="btn full ${T.cls}" href="#/simulasi/${sim.id}">Cuba Simulasi ${sim.name} ${I('arrow')}</a></div></div>`},
- simulasi(param){const S1=SIMS.find(x=>x.id===param)||SIMS[0];
+ simulasi(param){if(!SIMS.some(x=>x.id===param))return head('ALGEBRALAB','Simulasi','Pilih satu simulasi untuk dimulakan.','','c3')+
+  `<div class="pick">${SIMS.map(x=>`<a class="pcard ${x.cls}" href="#/simulasi/${x.id}"><div class="ppv">${simPreview(x.pv)}</div><div class="ptx"><span class="pno">SIMULASI ${x.no}</span><b class="h">${x.name}</b><small>${x.short}</small></div><span class="pgo">Buka ${I('arrow')}</span></a>`).join('')}</div>`;
+  const S1=SIMS.find(x=>x.id===param);
   return`<div class="simtop"><h1 class="h" style="position:absolute;left:-9999px">Simulasi ${S1.name}</h1>
   <nav class="simtabs" aria-label="Pilih simulasi">${SIMS.map(x=>`<a class="${x.cls} ${x.id===S1.id?'on':''}" href="#/simulasi/${x.id}"><b>${x.no}</b>${x.name}</a>`).join('')}</nav>
   <a class="fullbtn" href="${S1.file}" target="_blank" rel="noopener">Skrin penuh ↗</a></div>
