@@ -292,44 +292,38 @@ const blocksHTML=ts=>`<div class="blocks">${ts.filter(t=>t.n).map((t,i)=>`<span 
 
 /* =================== Penjana soalan =================== */
 const GEN={
+ // Mudah: 2–3 sebutan, pekali kecil 1–6, jawapan positif
  ungkapan(){
   const type=rnd(0,2);let ts;
-  if(type===0)ts=shuffle([{n:nz(-9,9),k:'x'},{n:nz(-9,9),k:'x'},{n:nz(-9,9),k:'c'},{n:nz(-9,9),k:'c'}]);
-  else if(type===1)ts=shuffle([{n:nz(-8,8),k:'x'},{n:nz(-8,8),k:'y'},{n:nz(-8,8),k:'x'},{n:nz(-8,8),k:'y'}]);
-  else ts=shuffle([{n:nz(-6,6),k:'x2'},{n:nz(-6,6),k:'x'},{n:nz(-6,6),k:'x2'},{n:nz(-9,9),k:'x'},{n:nz(-9,9),k:'c'}]).slice(0,4);
-  if(ts[0].n<0&&Math.random()<.6)ts[0].n*=-1;
+  if(type===0)ts=[{n:rnd(1,6),k:'x'},{n:rnd(1,6),k:'x'}];
+  else if(type===1)ts=shuffle([{n:rnd(1,5),k:'x'},{n:rnd(1,5),k:'x'},{n:rnd(1,9),k:'c'}]);
+  else{const a=rnd(3,8),b=rnd(1,a-1);ts=[{n:a,k:'x'},{n:-b,k:'x'}]}
+  if(ts[0].k==='c'&&Math.random()<.5)ts.push(ts.shift());
   const m=sum(ts);
   const groups=ORD.filter(k=>ts.some(t=>t.k===k)).map(k=>{const g=ts.filter(t=>t.k===k);return g.length>1?'('+fmt(g)+')':fmt(g)});
+  const xs=ts.filter(t=>t.k==='x');
   return{topic:'ungkapan',kind:'expr',q:'Permudahkan ungkapan berikut.',expr:fmt(ts),blocks:ts,answer:m,ansText:fmtMap(m),
-   hint:'Kumpulkan sebutan yang ada huruf DAN kuasa yang sama. Tambah atau tolak pekalinya sahaja — huruf tidak berubah.',
-   sol:'Kumpul: '+groups.join(' + ').replace(/\+ −/g,'− ')+' = '+fmtMap(m),
-   wrong:()=>{const w=[];const a=Object.assign({},m);const ks=ORD.filter(k=>m[k]);const k=pick(ks.length?ks:['x']);
-    w.push(Object.assign({},m,{[k]:-m[k]||1}));
-    const t0=ts.find(t=>t.n<0);if(t0){const b=Object.assign({},m);b[t0.k]=m[t0.k]-2*t0.n;w.push(b)}
-    const c=Object.assign({},m);c[k]=m[k]+pick([1,-1,2]);w.push(c);
-    const d=Object.assign({},a);const k2=pick(ORD.filter(q=>q!==k));d[k2]=(d[k2]||0)+pick([1,2,-1]);w.push(d);return w}}},
+   hint:'Tambah atau tolak nombor di hadapan x sahaja. Contoh: 2x + 3x = 5x.',
+   sol:(groups.length>1?'Kumpul sebutan x: ':'')+fmt(xs)+' = '+fmt([{n:m.x,k:'x'}])+(m.c?'. Nombor '+m.c+' kekal. Jawapan: '+fmtMap(m):''),
+   wrong:()=>[Object.assign({},m,{x:m.x+1}),Object.assign({},m,{x:Math.max(1,m.x-1)}),Object.assign({},m,{x:m.x+m.c,c:0}),Object.assign({},m,{c:m.c+1}),{x2:m.x,x:0,y:0,c:m.c}]}},
+ // Mudah: k(x + b) atau k(x − b), k 2–5, b 1–6
  kembangan(){
-  const type=rnd(0,2),a=nz(1,5)*pick([1,1,-1]),b=nz(-9,9);
-  const kk=type===2?pick([-1,-2,-3,-4]):pick([2,3,4,5,6,-2,-3,-5]);
-  let expr,m,sol,ts;
-  const inner=fmt([{n:a,k:'x'},{n:b,k:'c'}]);
-  const pre=kk===1?'':kk===-1?M:(kk<0?M+Math.abs(kk):String(kk));
-  if(type<2||type===2){m={x2:0,x:kk*a,y:0,c:kk*b};expr=pre+'('+inner+')';sol=(kk<0?'('+M+Math.abs(kk)+')':kk)+' × '+fmt([{n:a,k:'x'}])+' = '+fmt([{n:kk*a,k:'x'}])+', dan '+(kk<0?'('+M+Math.abs(kk)+')':kk)+' × '+(b<0?'('+M+Math.abs(b)+')':b)+' = '+fmt([{n:kk*b,k:'c'}])+'. Jawapan: '+fmtMap(m)}
-  if(type===1){const c=nz(-7,7);const m2={x2:0,x:kk*a+c,y:0,c:kk*b};const extra=(c<0?' '+M+' ':' + ')+termAbs(c,'x');sol='Kembangkan dahulu: '+fmtMap(m)+extra+', kemudian gabung sebutan x: '+fmtMap(m2);expr=expr+extra;m=m2}
-  return{topic:'kembangan',kind:'expr',q:type===1?'Kembangkan dan permudahkan.':'Kembangkan ungkapan berikut.',expr,answer:m,ansText:fmtMap(m),
-   hint:kk<0?'Darab SETIAP sebutan di dalam kurungan dengan '+(kk===-1?M+'1':M+Math.abs(kk))+'. Ingat: negatif × negatif = positif.':'Darab nombor di luar kurungan dengan SETIAP sebutan di dalam kurungan.',sol,
-   wrong:()=>[{x2:0,x:kk*a,y:0,c:b},{x2:0,x:m.x,y:0,c:-m.c},{x2:0,x:-m.x,y:0,c:m.c},{x2:0,x:m.x+(type===1?0:a),y:0,c:m.c+pick([1,-1])}]}},
+  const k=rnd(2,5),b=rnd(1,6),neg=Math.random()<.35;const bb=neg?-b:b;
+  const m={x2:0,x:k,y:0,c:k*bb};
+  return{topic:'kembangan',kind:'expr',q:'Kembangkan ungkapan berikut.',expr:k+'('+fmt([{n:1,k:'x'},{n:bb,k:'c'}])+')',answer:m,ansText:fmtMap(m),
+   hint:'Darab '+k+' dengan x, kemudian darab '+k+' dengan '+b+'.',
+   sol:k+' × x = '+k+'x, dan '+k+' × '+b+' = '+(k*b)+'. Jawapan: '+fmtMap(m),
+   wrong:()=>[{x2:0,x:k,y:0,c:bb},{x2:0,x:1,y:0,c:k*bb},{x2:0,x:k,y:0,c:-k*bb},{x2:0,x:k,y:0,c:k+bb}]}},
+ // Mudah: x + b = c, ax = c, atau ax + b = c dengan jawapan 1–10
  persamaan(){
-  const type=rnd(0,2),x=nz(-8,9);let expr,sol,steps;
-  if(type===0){const a=nz(2,6),b=nz(-12,12);const c=a*x+b;expr=fmt([{n:a,k:'x'},{n:b,k:'c'}])+' = '+(c<0?M+Math.abs(c):c);
-   sol=(b>0?'Tolak '+b:'Tambah '+Math.abs(b))+' pada kedua-dua belah: '+a+'x = '+(c-b<0?M+Math.abs(c-b):c-b)+'. Bahagi dengan '+a+': x = '+(x<0?M+Math.abs(x):x)+'.'}
-  else if(type===1){let a=nz(3,7),c=nz(1,a-1),b=nz(-10,10);const d=(a-c)*x+b;expr=fmt([{n:a,k:'x'},{n:b,k:'c'}])+' = '+fmt([{n:c,k:'x'},{n:d,k:'c'}]);
-   sol='Tolak '+c+'x pada kedua-dua belah: '+fmt([{n:a-c,k:'x'},{n:b,k:'c'}])+' = '+(d<0?M+Math.abs(d):d)+'. Kemudian asingkan x: x = '+(x<0?M+Math.abs(x):x)+'.'}
-  else{const a=nz(2,5),b=nz(-6,6);const c=a*(x+b);expr=a+'('+fmt([{n:1,k:'x'},{n:b,k:'c'}])+') = '+(c<0?M+Math.abs(c):c);
-   sol='Bahagi kedua-dua belah dengan '+a+': '+fmt([{n:1,k:'x'},{n:b,k:'c'}])+' = '+(c/a<0?M+Math.abs(c/a):c/a)+'. Kemudian x = '+(x<0?M+Math.abs(x):x)+'.'}
-  return{topic:'persamaan',kind:'num',q:'Selesaikan persamaan berikut. Cari nilai x.',expr,answer:x,ansText:'x = '+(x<0?M+Math.abs(x):x),
-   hint:'Buat operasi yang SAMA pada kedua-dua belah. Asingkan sebutan x dahulu, kemudian bahagi dengan pekali x.',sol,
-   wrong:()=>[-x,x+1,x-1,x+2,x*2].filter(v=>v!==x)}}};
+  const type=rnd(0,2),x=rnd(1,10);let expr,sol;
+  if(type===0){const b=rnd(1,9),c=x+b;expr='x + '+b+' = '+c;sol='Tolak '+b+' pada kedua-dua belah: x = '+c+' − '+b+' = '+x+'.'}
+  else if(type===1){const a=rnd(2,5),c=a*x;expr=a+'x = '+c;sol='Bahagi kedua-dua belah dengan '+a+': x = '+c+' ÷ '+a+' = '+x+'.'}
+  else{const a=rnd(2,3),b=rnd(1,5),c=a*x+b,xx=rnd(1,6);const C=a*xx+b;expr=a+'x + '+b+' = '+C;sol='Tolak '+b+': '+a+'x = '+(C-b)+'. Bahagi dengan '+a+': x = '+xx+'.';
+   return{topic:'persamaan',kind:'num',q:'Selesaikan persamaan berikut. Cari nilai x.',expr,answer:xx,ansText:'x = '+xx,hint:'Tolak '+b+' pada kedua-dua belah dahulu, kemudian bahagi dengan '+a+'.',sol,wrong:()=>[xx+1,xx-1,C-b,C+b,xx+2].filter(v=>v!==xx&&v>0)}}
+  return{topic:'persamaan',kind:'num',q:'Selesaikan persamaan berikut. Cari nilai x.',expr,answer:x,ansText:'x = '+x,
+   hint:type===0?'Apa nombor yang ditambah dengan bahagian x? Tolak nombor itu pada kedua-dua belah.':'Bahagi kedua-dua belah dengan nombor di hadapan x.',sol,
+   wrong:()=>(type===0?[x+1,x-1,Number(expr.split('= ')[1])+Number(expr.split('+ ')[1].split(' ')[0])]:[x+1,x-1,Number(expr.split('= ')[1])]).concat([x+2]).filter(v=>v!==x&&v>0)}}};
 const numText=v=>(v<0?M+Math.abs(v):String(v));
 function choicesFor(Q){const right=Q.kind==='num'?'x = '+numText(Q.answer):Q.ansText;const set=new Set([right]);
  for(const w of shuffle(Q.wrong())){const t=Q.kind==='num'?'x = '+numText(w):fmtMap(w);if(t!==right)set.add(t);if(set.size>=4)break}
@@ -422,7 +416,7 @@ const VIEWS={
   `<div class="simgrid">${SIMS.map(s=>`<${s.file?'a':'div'} class="simcard ${s.cls} ${s.soon?'soon':''}" ${s.file?`href="${s.file}"`:''}><div class="pv">${simPreview(s.pv)}</div><div><span class="badge-soon" style="color:var(--c);border-color:var(--c)">SIMULASI ${s.no}</span><h2 class="h">${s.name}</h2><p>${s.desc}</p><span class="btn">${s.soon?'Belum tersedia':'Buka '+I('arrow')}</span></div></${s.file?'a':'div'}>`).join('')}</div>`},
  latihan(){stopTimer();QS=null;return head('ALGEBRALAB','Latihan','Pilih topik. Setiap set ada 5 soalan rawak.',soundBtn()+starPill(),'c2')+
   `<div class="lgrid">${TOPICS.map(t=>{const b=S.best[t.id];return`<div class="lcard ${t.cls}"><div class="hd"><span class="sq">${I(t.icon)}</span><div><h2 class="h">${t.name}</h2><small>${b==null?'Belum dicuba':'Markah terbaik: '+b+'/5'}</small></div></div><button class="btn topic" data-start="${t.id}">Mula Latihan ${I('arrow')}</button></div>`}).join('')}</div>
-  <div class="info">${I('star')}<span>Setiap jawapan betul memberi <b>1 bintang</b>. Dapatkan sekurang-kurangnya <b>3/5</b> untuk lulus satu set.</span></div>`},
+  <div class="info">${I('star')}<span>Soalan peringkat <b>asas</b>. Setiap jawapan betul memberi <b>1 bintang</b>. Dapatkan sekurang-kurangnya <b>3/5</b> untuk lulus satu set.</span></div>`},
  kuiz(){stopTimer();QS=null;return head('ALGEBRALAB','Kuiz Pantas','Uji kefahaman anda bagi ketiga-tiga topik.',soundBtn(),'cg')+
   `<div class="card cg" style="max-width:640px"><h2 class="h" style="color:var(--tx)">Peraturan</h2><ul class="rules">
   <li>${I('check')}<span><b>10 soalan</b> campuran Sebutan Sejenis, Kembangan dan Persamaan Linear</span></li>
