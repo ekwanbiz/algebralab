@@ -1,0 +1,372 @@
+<!doctype html><html lang="ms"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AlgebraLab | Variable Explorer</title><style>
+:root{font-family:Inter,system-ui,Arial,sans-serif;color:#e8f1ff;background:#0E0B1A}*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 70% 0%,#2a1f4d,#0E0B1A 65%)}
+button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.38;cursor:not-allowed}
+.wrap{max-width:1100px;margin:auto;padding:20px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:16px}
+.eyebrow{font-size:11px;letter-spacing:.13em;color:#2EE6A6;font-weight:800}
+h1{color:#2EE6A6;margin:3px 0;font-size:clamp(23px,3vw,31px)}.muted{color:#A39BC6;font-size:13px}
+.pill{padding:8px 12px;border:1px solid #3A3266;border-radius:30px;color:#b5d9f5;font-size:12px;white-space:nowrap}
+.panel{background:#161229ee;border:1px solid #2D2650;border-radius:19px;padding:18px;box-shadow:0 15px 30px #0003;margin-bottom:16px}
+.field{display:block;color:#B8B0DA;font-size:12px;font-weight:800;letter-spacing:.06em;margin:0 0 8px}
+.ctl-inputs{display:flex;gap:8px}
+input{flex:1;min-width:0;background:#120F22;border:1px solid #3A3266;border-radius:10px;color:#fff;padding:11px 14px;font-size:19px;font-weight:700;outline:none}
+input:focus{border-color:#5dd7f5}input.bad{border-color:#e67a8b;box-shadow:0 0 0 3px #e67a8b33}
+.primary{background:#11b884;color:#fff;border:1px solid #2EE6A6;border-radius:10px;padding:11px 20px;font-weight:850;white-space:nowrap}
+.primary:hover{background:#14c890}
+.fmt{margin-top:10px;padding:9px 11px;border-radius:10px;background:#3b2f12;border:1px solid #d9a93a;color:#ffe3a3;font-size:12.5px;line-height:1.6}
+.fmt b{color:#fff3c4}
+.formerr{margin-top:9px;padding:10px 11px;border-radius:10px;background:#4a2630;border:1px solid #e67a8b;color:#ffd1d7;font-size:13px;line-height:1.5}
+.examples{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px;align-items:center}
+.examples span{font-size:11px;color:#8fa9c7;font-weight:800;letter-spacing:.06em;margin-right:2px}
+.examples button{background:#1D1836;border:1px solid #3a5a80;color:#c7defa;border-radius:8px;padding:6px 10px;font-size:13px}
+.examples button:hover{background:#244470}
+.examples .eqx{border-color:#7a5bc0;background:#2a2450}
+.stepbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.steptitle{font-size:clamp(17px,2.4vw,22px);font-weight:850}
+.steptitle small{display:block;font-size:11px;color:#2EE6A6;letter-spacing:.12em;font-weight:800;margin-bottom:2px}
+.modechip{font-size:11px;font-weight:800;letter-spacing:.08em;padding:5px 10px;border-radius:20px;border:1px solid #3A3266;background:#1D1836;color:#c2e6f9}
+.modechip.eq{border-color:#7a5bc0;background:#2a2450;color:#dccbff}
+.stage{position:relative;min-height:270px;border:1px solid #2D2650;border-radius:16px;background-color:#120F22;background-image:linear-gradient(#ffffff0a 1px,transparent 1px),linear-gradient(90deg,#ffffff0a 1px,transparent 1px);background-size:24px 24px;padding:24px 14px;display:flex;align-items:center;justify-content:center}
+.fx{position:absolute;inset:0;pointer-events:none;z-index:5;overflow:visible}
+.board{width:100%;display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:14px}
+.row{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px;max-width:100%}
+.group{display:flex;flex-direction:column;align-items:center;gap:9px;padding:12px 12px 10px;border-radius:14px;border:2px dashed #4a6a92;background:#12264499;min-width:118px}
+.group.enter{animation:boxin .45s both}
+.glabel{font-size:11px;font-weight:850;letter-spacing:.08em;color:#9fc0e6;text-transform:uppercase}
+.gitems{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;min-height:50px;align-items:center}
+.gcalc{font-size:15px;font-weight:800;color:#fff3c4;background:#3b2f12;border:1px solid #a9852e;border-radius:9px;padding:5px 10px;animation:boxin .4s both}
+.g-x{border-color:#9b7ff0}.g-y{border-color:#e9bf54}.g-x2{border-color:#4fd0cb}.g-y2{border-color:#e889c9}.g-xy{border-color:#78b2ff}.g-c{border-color:#5fbff5}
+.eqwrap{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:stretch;gap:12px;width:100%}
+.side{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;min-height:150px;border-radius:16px;padding:14px 10px;position:relative}
+.side.L{background:#1d4ed81f;border:2px solid #3b82f655}.side.R{background:#0596691f;border:2px solid #10b98155}
+.sidelabel{position:absolute;top:7px;left:11px;font-size:10px;font-weight:850;letter-spacing:.1em;color:#9fc0e6}
+.side .row{gap:8px}
+.eqsign{display:grid;place-items:center;font-size:42px;font-weight:900;color:#7fdcff}
+.badge{font-size:16px;font-weight:900;color:#2b1d00;background:linear-gradient(#ffe48a,#f6b73c);border-radius:10px;padding:5px 12px;box-shadow:0 4px 0 #8a5a0a;animation:boxin .4s both}
+.verdict{grid-column:1/-1;text-align:center;font-size:20px;font-weight:900;padding:10px;border-radius:12px;animation:boxin .45s both}
+.verdict.none{background:#4a2630;border:1px solid #e67a8b;color:#ffd1d7}.verdict.inf{background:#153f32;border:1px solid #35c38d;color:#b7f7d7}
+.token{display:inline-flex;align-items:center;justify-content:center;border:2px solid #5772a1;background:#21385b;border-radius:12px;padding:9px 13px;min-width:54px;min-height:50px;font-size:clamp(18px,2.6vw,24px);font-weight:850;color:#fff;box-shadow:inset 2px 3px 4px #ffffff30,0 5px 0 #071224,0 8px 12px #0005;white-space:nowrap;will-change:transform}
+.token.x{background:linear-gradient(145deg,#7553c4,#553c91);border-color:#b9a0ff}
+.token.y{background:linear-gradient(145deg,#a37b22,#87651d);border-color:#f2c75d}
+.token.x2{background:linear-gradient(145deg,#2f8a92,#276e75);border-color:#58d9d5}
+.token.y2{background:linear-gradient(145deg,#97507f,#7b416b);border-color:#ef8cce}
+.token.xy{background:linear-gradient(145deg,#3e6fac,#345c8e);border-color:#81b9ff}
+.token.c{background:linear-gradient(145deg,#2c6fa3,#245a86);border-color:#69caff}
+.token.op{outline:3px dashed #ffd76a;outline-offset:3px}
+.token.zero{background:#2a3850;border-color:#6f819e;color:#b7c4d8}
+.token.br{background:linear-gradient(145deg,#3d4e6c,#2b3850);border-color:#a9bedc;font-size:clamp(16px,2.2vw,21px)}
+.fr{display:inline-flex;flex-direction:column;align-items:center;line-height:1;font-size:.72em;margin:0 1px;vertical-align:middle}.fr b{font-weight:850;border-bottom:2px solid currentColor;padding:0 3px 2px}.fr i{font-style:normal;padding-top:2px}
+.glabel.raw{text-transform:none;font-size:15px;letter-spacing:0;color:#e6f0ff}.g-br{border-color:#a9bedc}.plain{display:flex;align-items:center}
+.token.ghost{position:absolute;margin:0;z-index:6}
+.formula{text-align:center;font-size:clamp(19px,2.8vw,27px);font-weight:850;margin-top:14px;min-height:34px;overflow-wrap:anywhere;letter-spacing:.01em}
+.desc{text-align:center;color:#CFC8EA;line-height:1.65;max-width:720px;margin:8px auto 0;font-size:14.5px}
+.controls{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:8px;margin-top:16px}
+.controls button{background:#1D1836;border:1px solid #3A3266;border-radius:10px;color:#e8f3ff;padding:10px 15px;font-weight:800}
+.controls button:hover:not(:disabled){background:#2a2450}
+.controls button.play{background:#11b884;border-color:#2EE6A6}
+.speed{display:flex;align-items:center;gap:7px;color:#aac1df;font-size:12.5px;margin-left:6px}
+.speed select{background:#120F22;color:#fff;border:1px solid #3a5575;padding:7px;border-radius:8px}
+.steps{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:14px}
+.steps button{border:1px solid #2D2650;background:#161229;color:#9fb7d4;border-radius:20px;padding:5px 11px;font-size:12px;font-weight:750}
+.steps button.done{background:#1D1836;color:#cfe6ff;border-color:#3A3266}
+.steps button.now{background:#11b884;color:#fff;border-color:#2EE6A6}
+.result{margin-top:14px;border:2px solid #32d399;border-radius:13px;background:#10392f;text-align:center;padding:14px;animation:boxin .45s both}
+.result b{color:#a7f3d0;font-size:12px;letter-spacing:.08em}.result strong{display:block;font-size:clamp(24px,3.4vw,32px);margin:4px}
+.result small{color:#a9d8c7;font-size:13.5px;line-height:1.6}
+.hidden{display:none!important}
+.footer{font-size:12px;color:#7D75A3;margin-top:4px}
+@keyframes boxin{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
+@media(max-width:640px){.wrap{padding:12px}.panel{padding:14px}.ctl-inputs{flex-direction:column}.stage{padding:18px 8px;min-height:240px}.token{min-width:44px;min-height:42px;padding:7px 10px;border-radius:10px}.eqwrap{gap:6px}.side{min-height:130px;padding:20px 5px 10px}.eqsign{font-size:30px}.group{min-width:96px;padding:10px 8px 8px}.speed{margin-left:0}.eyebrow{font-size:10px;letter-spacing:.08em}}
+</style></head><body><a href="../index.html#/simulasi" style="position:fixed;left:14px;bottom:14px;z-index:9999;display:inline-flex;align-items:center;gap:8px;background:#161229;border:1px solid #3A3266;color:#EFEAFD;border-radius:30px;padding:10px 16px;font:700 13px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 20px #0008">&#8592; ALGEBRALAB</a><div class="wrap">
+<header class="top"><div><div class="eyebrow">ALGEBRALAB · SIMULASI 03</div><h1>Variable Explorer</h1><div class="muted">Kurungan · Darab · Bahagi · Pecahan · Sebutan sejenis · Persamaan linear</div></div><div class="pill">VERSI 4</div></header>
+
+<section class="panel">
+ <label class="field" for="expr">MASUKKAN UNGKAPAN ATAU PERSAMAAN</label>
+ <div class="ctl-inputs"><input id="expr" value="3x + 2y + 5x − 4y + 3" spellcheck="false" autocomplete="off" aria-describedby="formErr"><button class="primary" id="generate">Jana Simulasi</button></div>
+ <div class="formerr hidden" id="formErr" role="alert"></div>
+</section>
+
+<section class="panel">
+ <div class="stepbar"><div class="steptitle" id="steptitle"><small id="stepno">LANGKAH</small><span id="stepname">—</span></div><span class="modechip" id="mode">UNGKAPAN</span></div>
+ <div class="stage" id="stage"><div class="board" id="board"></div><div class="fx" id="fx"></div></div>
+ <div class="formula" id="formula"></div>
+ <div class="desc" id="desc" aria-live="polite"></div>
+ <div class="controls">
+  <button id="prev">◀ Sebelum</button><button id="play" class="play">▶ Main</button><button id="next">Seterusnya ▶</button>
+  <label class="speed" for="speed">Kelajuan <select id="speed"><option value="3000">0.5×</option><option value="2000" selected>1×</option><option value="1400">1.5×</option><option value="1000">2×</option></select></label>
+ </div>
+ <div class="steps" id="steps"></div>
+ <div class="result hidden" id="result"><b>JAWAPAN AKHIR</b><strong id="answer"></strong><small id="check"></small></div>
+</section>
+<div class="footer">Variable Explorer · AlgebraLab · Versi 4</div>
+</div><script>
+'use strict';
+const $=id=>document.getElementById(id);
+const MINUS='−';
+const ORDER=['x2','y2','xy','x','y','c'];
+const VAR={x2:'x²',y2:'y²',xy:'xy',x:'x',y:'y',c:''};
+const NAME={x2:'sebutan x²',y2:'sebutan y²',xy:'sebutan xy',x:'sebutan x',y:'sebutan y',c:'pemalar'};
+
+/* ---------- Pecahan ---------- */
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){[a,b]=[b,a%b]}return a||1}
+function lcm(a,b){return a/gcd(a,b)*b}
+function F(n,d=1){if(d===0)throw Error('Tidak boleh bahagi dengan 0.');if(d<0){n=-n;d=-d}const g=gcd(n,d);n/=g;d/=g;if(!Number.isSafeInteger(n)||!Number.isSafeInteger(d)||Math.abs(n)>1e9||d>1e9)throw Error('Nombor terlalu besar untuk simulasi ini.');return{n,d}}
+const fadd=(a,b)=>F(a.n*b.d+b.n*a.d,a.d*b.d),fmul=(a,b)=>F(a.n*b.n,a.d*b.d),fneg=a=>({n:-a.n,d:a.d}),fabs=a=>({n:Math.abs(a.n),d:a.d}),isZero=a=>a.n===0,feq=(a,b)=>a.n===b.n&&a.d===b.d;
+function fdiv(a,b){if(!b.n)throw Error('Tidak boleh bahagi dengan 0.');return F(a.n*b.d,a.d*b.n)}
+function fstr(f){return(f.n<0?MINUS:'')+Math.abs(f.n)+(f.d!==1?'/'+f.d:'')}
+const fsum=arr=>arr.reduce((s,c)=>fadd(s,c),F(0));
+
+/* ---------- Teks sebutan ---------- */
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function absText(c,key){const n=Math.abs(c.n);if(key==='c')return n+(c.d!==1?'/'+c.d:'');const num=(n===1?'':n)+VAR[key];return c.d!==1?num+'/'+c.d:num}
+function isNeg(t){return t.text!=null?!!t.neg:t.c.n<0}
+function body(t){return t.text!=null?t.text:absText(t.c,t.key)}
+function signOf(t,first){return isNeg(t)?MINUS:(first?'':'+')}
+function tokText(t,first){return signOf(t,first)+body(t)}
+function tokHTML(t,first){const sg=signOf(t,first);if(t.text!=null||t.c.d===1)return esc(sg+body(t));const n=Math.abs(t.c.n),num=t.key==='c'?n:(n===1?'':n)+VAR[t.key];return esc(sg)+'<span class="fr"><b>'+esc(num)+'</b><i>'+t.c.d+'</i></span>'}
+function joinSeg(segs){if(!segs.length)return'0';return segs.map((g,i)=>i===0?(g.neg?MINUS:'')+g.s:(g.neg?' '+MINUS+' ':' + ')+g.s).join('')}
+function joinTerms(ts){return joinSeg(ts.map(t=>({neg:isNeg(t),s:body(t)})))}
+function joinNums(cs){return joinSeg(cs.map(c=>({neg:c.n<0,s:fstr(fabs(c))})))}
+
+/* ---------- Penghurai (kurungan, darab, bahagi, kuasa, perpuluhan) ---------- */
+function tokenize(raw){
+ const s=raw.replace(/[−–—]/g,'-').replace(/²/g,'^2').replace(/³/g,'^3').replace(/[\[{]/g,'(').replace(/[\]}]/g,')').replace(/,/g,'.');
+ const bad=[...new Set((s.match(/[a-wz]/gi)||[]).map(h=>h.toLowerCase()))];
+ if(bad.length)throw Error('Huruf "'+bad.join('", "')+'" tidak disokong. Hanya huruf x dan y sahaja yang boleh digunakan.');
+ const odd=[...new Set((s.match(/[^0-9xy+\-*×·÷:\/^().\s]/gi)||[]))];
+ if(odd.length)throw Error('Simbol "'+odd.join('", "')+'" tidak disokong.');
+ const T=[];let i=0;
+ while(i<s.length){const ch=s[i];
+  if(/\s/.test(ch)){i++;continue}
+  if(/[0-9.]/.test(ch)){let j=i;while(j<s.length&&/[0-9.]/.test(s[j]))j++;const v=s.slice(i,j);
+   if(!/^(\d+(\.\d+)?|\.\d+)$/.test(v))throw Error('Nombor "'+v+'" tidak sah.');
+   if(v.replace('.','').length>7)throw Error('Nombor "'+v+'" terlalu panjang.');
+   T.push({t:'num',v});i=j;continue}
+  if(/[xy]/i.test(ch)){T.push({t:'var',v:ch.toLowerCase()});i++;continue}
+  if('*×·'.includes(ch)){T.push({t:'op',v:'*'});i++;continue}
+  if('/÷:'.includes(ch)){T.push({t:'op',v:'/',sym:ch==='/'?'/':'÷'});i++;continue}
+  T.push({t:'op',v:ch});i++}
+ return T}
+function numFrac(v){if(v.includes('.')){const[a,b]=v.split('.');return F(Number((a||'0')+b),10**b.length)}return F(Number(v))}
+function parse(raw){
+ const T=tokenize(raw);if(!T.length)throw Error('Sila masukkan ungkapan.');let p=0;
+ const peek=()=>T[p],eat=v=>{if(T[p]&&T[p].t==='op'&&T[p].v===v){p++;return true}return false};
+ const isPM=t=>t&&t.t==='op'&&(t.v==='+'||t.v==='-');
+ function expr(){const items=[];let sign=1;if(eat('-'))sign=-1;else eat('+');
+  if(isPM(peek()))throw Error('Semak tanda tambah dan tolak — ada tanda berganda.');
+  items.push({sign,node:term()});
+  while(isPM(peek())){const sg=T[p++].v==='-'?-1:1;if(isPM(peek()))throw Error('Semak tanda tambah dan tolak — ada tanda berganda.');items.push({sign:sg,node:term()})}
+  return{k:'add',items}}
+ function term(){let n=unary();
+  for(;;){const t=peek();if(!t)break;
+   if(t.t==='op'&&t.v==='*'){p++;n={k:'mul',a:n,b:unary(),exp:true}}
+   else if(t.t==='op'&&t.v==='/'){p++;n={k:'div',a:n,b:unary(),sym:t.sym}}
+   else if(t.t==='num')throw Error(n.k==='num'?'Ada dua nombor bersebelahan tanpa tanda operasi.':'Tulis nombor di hadapan huruf atau kurungan — contoh 2x, bukan x2.');
+   else if(t.t==='var'||(t.t==='op'&&t.v==='(')){n={k:'mul',a:n,b:power()}}
+   else break}
+  return n}
+ function unary(){if(eat('-'))return{k:'neg',a:unary()};if(eat('+'))return unary();return power()}
+ function power(){let b=primary();if(eat('^')){const t=T[p++];if(!t||t.t!=='num'||t.v.includes('.'))throw Error('Kuasa mesti nombor bulat, contoh x^2 atau x².');const e=Number(t.v);if(e>3)throw Error('Kuasa melebihi 3 tidak disokong.');b={k:'pow',a:b,e}}return b}
+ function primary(){const t=T[p++];
+  if(!t)throw Error('Ungkapan tidak lengkap — ada sesuatu yang tertinggal di hujung.');
+  if(t.t==='num')return{k:'num',v:numFrac(t.v),raw:t.v};
+  if(t.t==='var')return{k:'var',v:t.v};
+  if(t.v==='('){if(peek()&&peek().v===')')throw Error('Kurungan kosong "()" tidak sah.');const e=expr();if(!eat(')'))throw Error('Kurungan tidak lengkap — ada "(" tanpa ")".');return{k:'group',a:e}}
+  if(t.v===')')throw Error('Ada ")" tanpa "(" yang sepadan.');
+  throw Error('Simbol "'+(t.v==='*'?'×':t.v)+'" berada di tempat yang salah.')}
+ const e=expr();
+ if(p<T.length){const t=T[p];throw Error(t.v===')'?'Ada ")" tanpa "(" yang sepadan.':'Semak ungkapan berhampiran "'+t.v+'".')}
+ return e}
+// Cetak semula seperti ditulis murid
+function pr(n){switch(n.k){
+ case'num':return n.raw;case'var':return n.v;case'group':return'('+pr(n.a)+')';
+ case'pow':return pr(n.a)+(n.e===2?'²':n.e===3?'³':'^'+n.e);
+ case'neg':return MINUS+pr(n.a);
+ case'mul':return n.exp?pr(n.a)+' × '+pr(n.b):pr(n.a)+pr(n.b);
+ case'div':return pr(n.a)+(n.sym==='÷'?' ÷ ':'/')+pr(n.b);
+ case'add':return n.items.map((it,i)=>i===0?(it.sign<0?MINUS:'')+pr(it.node):(it.sign<0?' '+MINUS+' ':' + ')+pr(it.node)).join('')}}
+// Kembangkan kepada senarai sebutan (belum digabung)
+function ex(n){switch(n.k){
+ case'num':return[{c:n.v,x:0,y:0}];
+ case'var':return[{c:F(1),x:n.v==='x'?1:0,y:n.v==='y'?1:0}];
+ case'group':return ex(n.a);
+ case'neg':return ex(n.a).map(t=>({...t,c:fneg(t.c)}));
+ case'add':return n.items.flatMap(it=>ex(it.node).map(t=>it.sign<0?{...t,c:fneg(t.c)}:t));
+ case'mul':{const A=ex(n.a),B=ex(n.b);if(A.length*B.length>36)throw Error('Ungkapan terlalu besar untuk dikembangkan.');return A.flatMap(a=>B.map(b=>({c:fmul(a.c,b.c),x:a.x+b.x,y:a.y+b.y})))}
+ case'div':{const B=ex(n.b),m=new Map();for(const t of B){const k=t.x+','+t.y;m.set(k,fadd(m.get(k)||F(0),t.c))}
+  for(const[k,c]of m)if(k!=='0,0'&&!isZero(c))throw Error('Bahagi dengan sebutan yang ada huruf (contoh ÷ x) belum disokong.');
+  const den=m.get('0,0')||F(0);if(isZero(den))throw Error('Tidak boleh bahagi dengan 0.');return ex(n.a).map(t=>({...t,c:fdiv(t.c,den)}))}
+ case'pow':{let r=[{c:F(1),x:0,y:0}];const B=ex(n.a);for(let i=0;i<n.e;i++){if(r.length*B.length>36)throw Error('Ungkapan terlalu besar untuk dikembangkan.');r=r.flatMap(a=>B.map(b=>({c:fmul(a.c,b.c),x:a.x+b.x,y:a.y+b.y})))}return r}}}
+function keyOf(x,y){return x===0&&y===0?'c':x===1&&y===0?'x':x===0&&y===1?'y':x===2&&y===0?'x2':x===0&&y===2?'y2':x===1&&y===1?'xy':null}
+function hasGroup(n){return n.k==='group'||['a','b'].some(k=>n[k]&&typeof n[k]==='object'&&hasGroup(n[k]))||(n.items||[]).some(it=>hasGroup(it.node))}
+function hasDiv(n){return n.k==='div'||['a','b'].some(k=>n[k]&&typeof n[k]==='object'&&hasDiv(n[k]))||(n.items||[]).some(it=>hasDiv(it.node))}
+// Pecahkan satu belah kepada kepingan: sebutan mudah, atau kepingan yang perlu dikembangkan
+function pieces(raw,prefix){
+ const top=parse(raw);
+ return top.items.map((it,i)=>{
+  const terms=ex(it.node).map(t=>{const key=keyOf(t.x,t.y);if(!key)throw Error('Sebutan seperti x³, x²y atau xy² belum disokong (kuasa tertinggi 2).');return{c:it.sign<0?fneg(t.c):t.c,key}});
+  const label=pr(it.node);
+  const simple=terms.length===1&&label===absText(fabs(terms[0].c),terms[0].key);
+  if(simple)return{simple:true,tok:{id:prefix+i,c:terms[0].c,key:terms[0].key}};
+  const pid=prefix+'p'+i;
+  return{simple:false,group:hasGroup(it.node),div:hasDiv(it.node),piece:{id:pid,text:label,neg:it.sign<0,br:true},
+   terms:terms.filter(t=>!isZero(t.c)).map((t,j)=>({id:prefix+'e'+i+'_'+j,c:t.c,key:t.key,from:[pid]}))}})}
+function expandDesc(P){const g=P.some(p=>!p.simple&&p.group),d=P.some(p=>!p.simple&&p.div),ng=P.some(p=>!p.simple&&p.group&&p.piece.neg);
+ return(g?'Darab setiap sebutan DI DALAM kurungan dengan sebutan di luarnya. ':'')+(ng?'Tanda − di hadapan kurungan menukar tanda SEMUA sebutan di dalamnya. ':'')+(d?'Bahagi bermaksud setiap sebutan di atas dibahagi dengan penyebut — hasilnya pecahan. ':'')+(!g&&!d?'Darab nombor dengan nombor, dan huruf dengan huruf. ':'')}
+
+/* ---------- Bingkai: ungkapan ---------- */
+function groupSeg(g){return g.items.length>1?{neg:false,s:'('+joinTerms(g.items)+')'}:{neg:isNeg(g.items[0]),s:body(g.items[0])}}
+function calcSeg(g){if(g.items.length===1)return groupSeg(g);return{neg:false,s:'('+joinNums(g.items.map(t=>t.c))+')'+VAR[g.key]}}
+function calcText(g,sum){const r=isZero(sum)?'0':tokText({c:sum,key:g.key},true);if(g.items.length===1)return isZero(sum)?tokText(g.items[0],true)+' → 0 (digugurkan)':'';return'('+joinNums(g.items.map(t=>t.c))+')'+VAR[g.key]+' = '+r}
+function buildExpr(raw){
+ const P=pieces(raw,'t');const complex=P.some(p=>!p.simple);
+ let T=P.flatMap(p=>p.simple?[p.tok]:p.terms);
+ if(T.length>20)throw Error('Selepas dikembangkan ada '+T.length+' sebutan — maksimum 20. Cuba ungkapan yang lebih pendek.');
+ const FR=[];
+ if(complex){
+  const orig=P.map(p=>p.simple?p.tok:p.piece);
+  FR.push({name:'Ungkapan asal',desc:'Blok kelabu mengandungi kurungan, darab atau bahagi yang perlu dikembangkan dahulu sebelum sebutan sejenis boleh dikumpul.',layout:'row',items:orig,formula:joinTerms(orig)});
+  FR.push({name:'Kembangkan',desc:expandDesc(P)+'Sebutan biasa kekal seperti asal.',layout:'groups',
+   groups:P.map(p=>p.simple?{plain:true,items:[p.tok]}:{key:'br',raw:true,label:(p.piece.neg?MINUS:'')+p.piece.text,items:p.terms.length?p.terms:[{id:p.piece.id+'z',c:F(0),key:'c',text:'0',zero:true,from:[p.piece.id]}],calc:'= '+(p.terms.length?joinTerms(p.terms):'0')}),
+   formula:joinTerms(T.length?T:[{c:F(0),key:'c'}])});
+  if(!T.length)T=[];
+ }
+ if(!T.length){const z={id:'zall',c:F(0),key:'c',text:'0',zero:true};FR.push({name:'Ungkapan ringkas',desc:'Semua sebutan bernilai 0.',layout:'row',items:[z],formula:'0',answer:'0',note:'Ungkapan ini bernilai 0.'});return FR}
+ const sorted=ORDER.flatMap(k=>T.filter(t=>t.key===k));
+ const groups=ORDER.map(k=>({key:k,label:NAME[k],items:T.filter(t=>t.key===k)})).filter(g=>g.items.length);
+ FR.push({name:'Kenal pasti sebutan',desc:(complex?'Semua kurungan sudah dibuka. ':'')+'Setiap sebutan dipaparkan dengan warna mengikut jenisnya. Tanda + atau − di hadapan sebutan kekal bersama sebutan itu.',layout:'row',items:T,formula:joinTerms(T)});
+ const need=groups.some(g=>g.items.length>1||g.items.some(t=>isZero(t.c)));
+ if(!need){FR.push({name:'Tiada sebutan sejenis',desc:'Setiap jenis sebutan hanya muncul sekali, jadi tiada yang boleh digabungkan. Sebutan disusun mengikut jenis.',layout:'row',items:sorted,formula:joinTerms(sorted),answer:joinTerms(sorted),note:'Ungkapan ini sudah dalam bentuk paling ringkas.'});return FR}
+ FR.push({name:'Kumpulkan sebutan sejenis',desc:'Sebutan dengan pemboleh ubah DAN kuasa yang sama bergerak ke kotak yang sama. Ingat: x dan x² tidak sejenis.',layout:'groups',groups,formula:joinSeg(groups.map(groupSeg))});
+ const sums=groups.map(g=>fsum(g.items.map(t=>t.c)));
+ const anyFrac=T.some(t=>t.c.d!==1);
+ const withCalc=groups.map((g,i)=>({...g,calc:g.items.length>1||isZero(sums[i])?calcText(g,sums[i]):''}));
+ FR.push({name:'Hitung pekali',desc:'Dalam setiap kotak, tambah atau tolak PEKALI sahaja. Pemboleh ubah dan kuasanya tidak berubah.'+(anyFrac?' Untuk pecahan, samakan penyebut dahulu.':''),layout:'groups',groups:withCalc,formula:joinSeg(groups.map(calcSeg))});
+ const merged=groups.map((g,i)=>{const s=sums[i];let items;
+  if(isZero(s))items=[{id:'z'+g.key,c:F(0),key:g.key,text:'0',zero:true,from:g.items.map(t=>t.id)}];
+  else if(g.items.length===1)items=[g.items[0]];
+  else items=[{id:'m'+g.key,c:s,key:g.key,from:g.items.map(t=>t.id)}];
+  return{...withCalc[i],items}});
+ const zeroCount=sums.filter(isZero).length;
+ FR.push({name:'Gabungkan sebutan',desc:'Blok dalam setiap kotak bergabung menjadi satu sebutan.'+(zeroCount?' Kotak yang jumlah pekalinya 0 menjadi 0 dan akan digugurkan.':''),layout:'groups',groups:merged,formula:joinSeg(merged.map(g=>g.items[0].zero?{neg:false,s:'0'}:groupSeg(g)))});
+ let final=merged.flatMap(g=>g.items).filter(t=>!t.zero);
+ if(!final.length)final=[{id:'zall',c:F(0),key:'c',text:'0',zero:true,from:merged.flatMap(g=>g.items.map(t=>t.id))}];
+ FR.push({name:'Ungkapan ringkas',desc:'Selesai! Sebutan sejenis telah digabungkan'+(zeroCount?' dan sebutan bernilai 0 digugurkan':'')+'. Inilah bentuk paling ringkas.',layout:'row',items:final,formula:joinTerms(final),answer:joinTerms(final),note:'Bilangan sebutan: '+T.length+' → '+(final[0].zero?0:final.length)+'.'});
+ return FR;
+}
+
+/* ---------- Bingkai: persamaan ---------- */
+function buildEq(raw){
+ const parts=raw.split('=');
+ if(parts.length!==2||!parts[0].trim()||!parts[1].trim())throw Error('Persamaan perlu tepat satu tanda = dengan sebutan di kedua-dua belah.');
+ const PL=pieces(parts[0],'L'),PR=pieces(parts[1],'R');
+ const allT=[...PL,...PR].flatMap(p=>p.simple?[p.tok]:p.terms);
+ if(allT.some(t=>t.key==='y'||t.key==='xy'||t.key==='y2'))throw Error('Persamaan hanya menyokong huruf x. Huruf y boleh digunakan dalam ungkapan (tanpa tanda =).');
+ if(allT.some(t=>t.key==='x2'))throw Error('Persamaan kuadratik (ada x²) belum disokong. Gunakan persamaan linear, contoh 3(x − 2) = 2(x + 1).');
+ if(allT.length>14)throw Error('Persamaan terlalu panjang selepas dikembangkan (maksimum 14 sebutan).');
+ let uid=0;const Fr=[];
+ const sideOrig=P=>P.map(p=>p.simple?p.tok:p.piece),sideExp=P=>{const r=P.flatMap(p=>p.simple?[p.tok]:p.terms);return r.length?r:[{id:'z'+(uid++),c:F(0),key:'c',zero:true,from:P.filter(p=>!p.simple).map(p=>p.piece.id)}]};
+ let L=sideOrig(PL),R=sideOrig(PR);
+ const co=(S,k)=>fsum(S.filter(t=>t.key===k).map(t=>t.c));
+ const snap=(name,desc,extra={})=>Fr.push({name,desc,layout:'eq',L:L.slice(),R:R.slice(),formula:joinTerms(L)+' = '+joinTerms(R),...extra});
+ const dirty=S=>S.filter(t=>t.key==='x').length>1||S.filter(t=>t.key==='c').length>1||(S.some(t=>isZero(t.c))&&S.length>1);
+ const combine=(S,side)=>{const out=[];for(const k of['x','c']){const a=S.filter(t=>t.key===k);if(!a.length)continue;const s=fsum(a.map(t=>t.c));
+   if(a.length===1&&!isZero(s))out.push({...a[0],op:false});else if(!isZero(s))out.push({id:side+'m'+(uid++),c:s,key:k,from:a.map(t=>t.id)})}
+  if(!out.length)out.push({id:side+'z'+(uid++),c:F(0),key:'c',zero:true,from:S.map(t=>t.id)});return out};
+ const addOp=(S,side,term)=>[...S,{id:side+'o'+(uid++),...term,op:true}];
+ const cx=c=>absText(fabs(c),'x'),cc=c=>fstr(fabs(c));
+ const cplx=[...PL,...PR].some(p=>!p.simple);
+ snap('Persamaan asal',cplx?'Blok kelabu mengandungi kurungan, darab atau bahagi. Ia perlu dikembangkan dahulu.':'Sebutan x (ungu) dan nombor (biru) di kedua-dua belah. Kiri dan kanan bernilai sama — seperti timbangan yang seimbang.');
+ if(cplx){L=sideExp(PL);R=sideExp(PR);snap('Kembangkan',expandDesc([...PL,...PR])+'Lakukan pada kedua-dua belah.')}
+ if(dirty(L)||dirty(R)){L=combine(L,'L');R=combine(R,'R');snap('Permudahkan setiap belah','Gabungkan sebutan sejenis yang berada di sebelah yang sama terlebih dahulu.')}
+ if(isZero(co(L,'x'))&&!isZero(co(R,'x'))){[L,R]=[R,L];snap('Tukar sisi','Sebutan x hanya ada di kanan, jadi kedua-dua belah ditukar. Jika A = B, maka B = A — persamaan tetap sama.')}
+ const m=[...L,...R].reduce((a,t)=>lcm(a,t.c.d),1);
+ if(m>1){snap('Darab kedua-dua belah dengan '+m,'Ada pecahan. Darab SETIAP sebutan di kedua-dua belah dengan '+m+' (gandaan sepunya terkecil bagi penyebut) supaya semua pecahan hilang.',{badge:'× '+m,formula:(L.length>1?'('+joinTerms(L)+')':joinTerms(L))+' × '+m+' = '+(R.length>1?'('+joinTerms(R)+')':joinTerms(R))+' × '+m});
+  const mul=(S,side)=>S.map(t=>({id:side+'k'+(uid++),c:fmul(t.c,F(m)),key:t.key,zero:t.zero,from:[t.id]}));L=mul(L,'L');R=mul(R,'R');
+  snap('Pecahan dihapuskan','Setiap sebutan telah didarab dengan '+m+'. Kini semua pekali ialah nombor bulat.')}
+ const c=co(R,'x');
+ if(!isZero(c)){const t={c:fneg(c),key:'x'},w=c.n>0?'Tolak':'Tambah';
+  L=addOp(L,'L',t);R=addOp(R,'R',t);
+  snap(w+' '+cx(c)+' pada kedua-dua belah','Untuk menghapuskan '+tokText({c,key:'x'},true)+' di sebelah kanan, '+w.toLowerCase()+' '+cx(c)+' pada KEDUA-DUA belah (blok bergaris kuning). Persamaan kekal seimbang.');
+  L=combine(L,'L');R=combine(R,'R');
+  snap('Permudahkan','Di kanan, '+tokText({c,key:'x'},true)+' dan '+tokText(t,true)+' terbatal menjadi 0. Di kiri, sebutan x digabungkan.')}
+ const noX=isZero(co(L,'x'))&&isZero(co(R,'x'));
+ const b=noX?F(0):co(L,'c');
+ if(!isZero(b)){const t={c:fneg(b),key:'c'},w=b.n>0?'Tolak':'Tambah';
+  L=addOp(L,'L',t);R=addOp(R,'R',t);
+  snap(w+' '+cc(b)+' pada kedua-dua belah','Untuk mengasingkan sebutan x, '+w.toLowerCase()+' '+cc(b)+' pada KEDUA-DUA belah supaya '+tokText({c:b,key:'c'},true)+' di kiri terbatal.');
+  L=combine(L,'L');R=combine(R,'R');
+  snap('Permudahkan','Di kiri, '+tokText({c:b,key:'c'},true)+' dan '+tokText(t,true)+' terbatal menjadi 0. Di kanan, nombor dikira.')}
+ const a=co(L,'x'),d=co(R,'c');
+ if(isZero(a)){const inf=feq(co(L,'c'),d);const last=Fr[Fr.length-1];
+  Fr.push({...last,badge:null,name:'Kesimpulan',verdict:inf?'inf':'none',desc:inf?'Tiada sebutan x yang tinggal, dan '+joinTerms(L)+' = '+joinTerms(R)+' sentiasa benar — jadi SEMUA nilai x memuaskan persamaan.':'Sebutan x terbatal dan tinggal '+joinTerms(L)+' = '+joinTerms(R)+' — pernyataan ini tidak benar, jadi tiada nilai x yang memuaskan persamaan.',answer:inf?'Tak terhingga penyelesaian':'Tiada penyelesaian',note:inf?'Kedua-dua belah sentiasa sama.':'Persamaan ini tidak pernah benar.'});
+  return Fr}
+ const fx=fdiv(d,a),as=a.n<0?'('+fstr(a)+')':fstr(a);
+ if(!feq(a,F(1))){snap('Bahagi kedua-dua belah dengan '+as,'Sebutan x mempunyai pekali '+fstr(a)+'. Bahagi KEDUA-DUA belah dengan nombor yang sama supaya tinggal satu x.',{badge:'÷ '+as,formula:joinTerms(L)+' ÷ '+as+' = '+joinTerms(R)+' ÷ '+as});
+  L=[{id:'Lx'+(uid++),c:F(1),key:'x',from:L.map(t=>t.id)}];R=[{id:'Rv'+(uid++),c:fx,key:'c',from:R.map(t=>t.id)}];
+  snap('Nilai x','Kiri tinggal x. Kanan: '+fstr(d)+' ÷ '+as+' = '+fstr(fx)+(fx.d!==1?' (pecahan dalam bentuk termudah)':'')+'.')}
+ const last=Fr[Fr.length-1];
+ last.answer='x = '+fstr(fx);
+ if(feq(a,F(1)))last.desc+=' Sebutan x sudah terasing — inilah jawapannya.';
+ return Fr;
+}
+
+/* ---------- Enjin animasi (FLIP) ---------- */
+let frames=[],idx=-1,timer=null,els=new Map(),lastLayout='',isEq=false;
+const D=()=>Math.round(Number($('speed').value)*0.42);
+const div=(cls,txt)=>{const e=document.createElement('div');e.className=cls;if(txt!=null)e.textContent=txt;return e};
+function styleTok(e,t,first){e.className='token '+(t.br?'br':t.key)+(t.op?' op':'')+(t.zero?' zero':'');e.innerHTML=tokHTML(t,first);e.dataset.id=t.id}
+function render(f,animate){
+ const stage=$('stage'),board=$('board'),fx=$('fx');
+ const old=new Map();if(animate)for(const[id,e]of els)if(e.isConnected)old.set(id,e.getBoundingClientRect());
+ fx.replaceChildren();board.replaceChildren();
+ const next=new Map(),placed=[];const enter=f.layout!==lastLayout;lastLayout=f.layout;
+ const place=(box,items)=>items.forEach((t,i)=>{let e=els.get(t.id);const fresh=!e;if(!e)e=document.createElement('span');e.getAnimations().forEach(a=>a.cancel());styleTok(e,t,i===0);box.append(e);next.set(t.id,e);placed.push({t,e,fresh})});
+ if(f.layout==='row'){const r=div('row');place(r,f.items);board.append(r)}
+ else if(f.layout==='groups'){for(const g of f.groups){if(g.plain){const pl=div('plain');place(pl,g.items);board.append(pl);continue}const gb=div('group g-'+g.key+(enter?' enter':''));gb.append(div('glabel'+(g.raw?' raw':''),g.label));const gi=div('gitems');place(gi,g.items);gb.append(gi);if(g.calc)gb.append(div('gcalc',g.calc));board.append(gb)}}
+ else{const w=div('eqwrap');for(const side of['L','R']){const s=div('side '+side);s.append(div('sidelabel',side==='L'?'SEBELAH KIRI':'SEBELAH KANAN'));const r=div('row');place(r,f[side]);s.append(r);if(f.badge)s.append(div('badge',f.badge));w.append(s);if(side==='L')w.append(div('eqsign','='))}
+  if(f.verdict)w.append(div('verdict '+f.verdict,f.answer));board.append(w)}
+ const dur=D(),sr=stage.getBoundingClientRect(),ease='cubic-bezier(.22,.8,.25,1)';
+ const nowRect=new Map();for(const p of placed)nowRect.set(p.t.id,p.e.getBoundingClientRect());
+ const targetOf=new Map();for(const p of placed)if(p.t.from)for(const id of p.t.from)if(!targetOf.has(id))targetOf.set(id,p.t.id);
+ // Blok yang hilang: terbang ke blok gabungan, atau mengecil & pudar
+ if(animate)for(const[id,e]of els){if(next.has(id)||!old.has(id))continue;const o=old.get(id),g=e.cloneNode(true);g.classList.add('ghost');g.style.left=(o.left-sr.left)+'px';g.style.top=(o.top-sr.top)+'px';g.style.width=o.width+'px';g.style.height=o.height+'px';fx.append(g);
+  const tid=targetOf.get(id),tr=tid&&nowRect.get(tid);let kf;
+  if(tr){const dx=(tr.left+tr.width/2)-(o.left+o.width/2),dy=(tr.top+tr.height/2)-(o.top+o.height/2);kf=[{transform:'none',opacity:1},{transform:`translate(${dx}px,${dy}px) scale(.85)`,opacity:1,offset:.8},{transform:`translate(${dx}px,${dy}px) scale(.6)`,opacity:0}]}
+  else kf=[{transform:'none',opacity:1},{transform:'scale(1.15)',opacity:1,offset:.25},{transform:'scale(.2)',opacity:0}];
+  g.animate(kf,{duration:dur*.85,easing:ease,fill:'forwards'}).onfinish=()=>g.remove()}
+ // Blok kekal: gerak lancar dari kedudukan lama; blok baharu: muncul
+ for(const{t,e,fresh}of placed){
+  if(!animate){continue}
+  const o=old.get(t.id);
+  if(o&&!fresh){const n=nowRect.get(t.id),dx=o.left-n.left,dy=o.top-n.top;if(Math.abs(dx)>.5||Math.abs(dy)>.5)e.animate([{transform:`translate(${dx}px,${dy}px)`},{transform:'none'}],{duration:dur,easing:ease})}
+  else if(t.from)e.animate([{transform:'scale(.3)',opacity:0},{transform:'scale(1.18)',opacity:1,offset:.7},{transform:'none',opacity:1}],{duration:dur*.55,delay:dur*.6,easing:ease,fill:'backwards'});
+  else if(t.op)e.animate([{transform:'translateY(-46px) scale(.6)',opacity:0},{transform:'translateY(4px)',opacity:1,offset:.75},{transform:'none',opacity:1}],{duration:dur*.7,easing:ease,fill:'backwards'});
+  else e.animate([{opacity:0,transform:'translateY(14px) scale(.9)'},{opacity:1,transform:'none'}],{duration:dur*.6,delay:placed.indexOf(placed.find(p=>p.e===e))*50,easing:ease,fill:'backwards'})}
+ els=next;
+}
+function show(i,animate=true){
+ if(!frames.length)return;idx=Math.max(0,Math.min(frames.length-1,i));const f=frames[idx];
+ render(f,animate);
+ $('stepno').textContent='LANGKAH '+(idx+1)+' / '+frames.length;$('stepname').textContent=f.name;
+ $('formula').textContent=f.formula;$('desc').textContent=f.desc;
+ $('prev').disabled=idx===0;$('next').disabled=idx===frames.length-1;$('play').disabled=idx===frames.length-1&&!timer;
+ const st=$('steps');st.replaceChildren();frames.forEach((fr,j)=>{const b=document.createElement('button');b.textContent=(j+1)+'. '+fr.name;b.className=j<idx?'done':j===idx?'now':'';b.onclick=()=>{stop();show(j)};st.append(b)});
+ const last=idx===frames.length-1;$('result').classList.toggle('hidden',!last);
+ if(last){$('answer').textContent=f.answer||f.formula;$('check').textContent=f.note||''}
+ if(last)stop();
+}
+function stop(){if(timer){clearInterval(timer);timer=null}$('play').textContent='▶ Main';if(frames.length)$('play').disabled=idx===frames.length-1}
+function play(){if(timer){stop();return}if(idx>=frames.length-1)show(0,false);$('play').textContent='❚❚ Jeda';$('play').disabled=false;timer=setInterval(()=>{if(idx<frames.length-1)show(idx+1);if(idx>=frames.length-1)stop()},Number($('speed').value))}
+function formError(msg){const e=$('formErr');e.classList.toggle('hidden',!msg);e.textContent=msg?'⚠ '+msg:'';$('expr').classList.toggle('bad',!!msg)}
+function generate(){stop();const raw=$('expr').value;try{isEq=raw.includes('=');const F=isEq?buildEq(raw):buildExpr(raw);frames=F;formError('');els=new Map();lastLayout='';$('mode').textContent=isEq?'PERSAMAAN':'UNGKAPAN';$('mode').className='modechip'+(isEq?' eq':'');show(0)}catch(e){formError(e.message)}}
+$('generate').onclick=generate;
+$('expr').addEventListener('keydown',e=>{if(e.key==='Enter')generate()});
+$('expr').addEventListener('input',()=>formError(''));
+$('prev').onclick=()=>{stop();show(idx-1)};$('next').onclick=()=>{stop();show(idx+1)};$('play').onclick=play;
+$('speed').onchange=()=>{if(timer){stop();play()}};
+document.addEventListener('keydown',e=>{if(e.target.matches('input,select'))return;if(e.key==='ArrowRight'){stop();show(idx+1)}else if(e.key==='ArrowLeft'){stop();show(idx-1)}});
+window.addEventListener('resize',()=>{if(frames.length)render(frames[idx],false)});
+generate();
+</script></body></html>
