@@ -158,6 +158,9 @@ main.wide{max-width:none;padding:26px 28px 24px}
 .simframe{width:100%;height:calc(100vh - 118px);height:calc(100dvh - 118px - env(safe-area-inset-top));min-height:520px;border:1px solid var(--bd);border-radius:18px;background:var(--bg);display:block}
 .fullbtn{font-size:13px;color:var(--mu);display:inline-flex;align-items:center;gap:6px;border:1px solid var(--bd2);border-radius:10px;padding:7px 11px}
 .fullbtn:hover{color:var(--tx);background:var(--sf)}
+.qfoot{display:flex;flex-direction:column;gap:12px;margin-top:12px}
+.qfoot .fb{margin-top:0}
+.qfoot #nextQ{justify-content:center}
 /* Latihan / Kuiz */
 .lgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px}
 .lcard{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:18px}
@@ -216,6 +219,22 @@ main.wide{max-width:none;padding:26px 28px 24px}
 
 /* ---------- Telefon ---------- */
 @media(max-width:860px){
+ body.inquiz .bottomnav{display:none}
+ body.inquiz main{padding-bottom:16px}
+ .quizmode .qhead{margin-bottom:8px;gap:8px}.quizmode .qhead .t b{font-size:16px}.quizmode .qhead .t small{font-size:10px}
+ .quizmode .qhead .iconbtn{width:38px;height:38px}.quizmode .starpill{padding:5px 10px}.quizmode .timer{padding:5px 10px}
+ .quizmode .qbar{margin-bottom:10px}
+ .quizmode .qwrap{gap:10px}
+ .quizmode .qwrap>.card{padding:12px}
+ .quizmode .qtext{font-size:14px;margin:0 0 8px}
+ .quizmode .qexpr{font-size:22px;padding:12px 8px}
+ .quizmode .alab{margin-bottom:6px;font-size:12px}
+ .quizmode .choices{grid-template-columns:1fr 1fr;gap:8px}
+ .quizmode .choice{padding:12px 6px;font-size:16px;border-radius:12px}
+ .quizmode .qfoot{flex-direction:row;align-items:stretch;gap:8px;margin-top:10px}
+ .quizmode .qfoot #fb{flex:1;min-width:0}
+ .quizmode .fb{padding:8px 10px;font-size:12px;line-height:1.45}.quizmode .fb b.big{font-size:14px;margin-bottom:2px}
+ .quizmode .qfoot #nextQ{padding:10px 12px;font-size:14px;flex:none}
  .pick{grid-template-columns:1fr;gap:10px}
  .pcard{flex-direction:row;align-items:center;padding:10px;gap:12px}
  .ppv{width:92px;height:70px;flex:none;border-radius:10px}.ppv svg{width:100%;max-height:66px}
@@ -341,7 +360,7 @@ const GEN={
   return{topic:'ungkapan',kind:'expr',q:'Permudahkan ungkapan berikut.',expr:fmt(ts),blocks:ts,answer:m,ansText:fmtMap(m),
    hint:'Tambah atau tolak nombor di hadapan x sahaja. Contoh: 2x + 3x = 5x.',
    sol:(groups.length>1?'Kumpul sebutan x: ':'')+fmt(xs)+' = '+fmt([{n:m.x,k:'x'}])+(m.c?'. Nombor '+m.c+' kekal. Jawapan: '+fmtMap(m):''),
-   wrong:()=>[Object.assign({},m,{x:m.x+1}),Object.assign({},m,{x:Math.max(1,m.x-1)}),Object.assign({},m,{x:m.x+m.c,c:0}),Object.assign({},m,{c:m.c+1}),{x2:m.x,x:0,y:0,c:m.c}]}},
+   wrong:()=>[Object.assign({},m,{x:m.x+1}),Object.assign({},m,{x:Math.max(1,m.x-1)}),Object.assign({},m,{x:m.x+m.c,c:0}),Object.assign({},m,{c:m.c+1}),Object.assign({},m,{x:m.x+2})]}},
  // Mudah: k(x + b) atau k(x − b), k 2–5, b 1–6
  kembangan(){
   const k=rnd(2,5),b=rnd(1,6),neg=Math.random()<.35;const bb=neg?-b:b;
@@ -480,10 +499,10 @@ function renderQ(){
  stopTimer();const v=document.getElementById('view');const Q=QS.qs[QS.i],T=TOPICS.find(t=>t.id===Q.topic),n=QS.qs.length;
  const cls=QS.quiz?'cg':T.cls;
  let right;
- if(QS.quiz){const ch=choicesFor(Q);QS.ch=ch;right=`<div class="alab">Pilih jawapan</div><div class="choices">${ch.list.map((c,i)=>`<button class="choice" data-c="${i}">${c}</button>`).join('')}</div><div id="fb"></div><div class="arow" style="margin-top:12px"><button class="btn go2 hidden" id="nextQ">${QS.i===n-1?'Lihat Keputusan':'Seterusnya'} ${I('arrow')}</button></div>`}
+ if(QS.quiz){const ch=choicesFor(Q);QS.ch=ch;right=`<div class="alab">Pilih jawapan</div><div class="choices">${ch.list.map((c,i)=>`<button class="choice" data-c="${i}">${c}</button>`).join('')}</div><div class="qfoot"><div id="fb"></div><button class="btn go2 hidden" id="nextQ">${QS.i===n-1?'Keputusan':'Seterusnya'} ${I('arrow')}</button></div>`}
  else right=`<div class="alab">Jawapan anda</div><input class="ainput" id="ans" ${Q.kind==='num'?'inputmode="text" placeholder="x = ?"':'placeholder="contoh: 3x − 2y + 4"'} autocomplete="off" spellcheck="false" aria-label="Jawapan"><p class="ahelp">${Q.kind==='num'?'Taip nilai x sahaja, contoh: 5 atau −3':'Taip jawapan paling ringkas. Gunakan x² atau x^2 untuk kuasa dua.'}</p>
   <div class="arow"><button class="btn ghost" id="hintB">${I('bulb')}Petunjuk</button><button class="btn go2" id="checkB">Semak Jawapan</button></div><div id="fb"></div><div class="arow" style="margin-top:12px"><button class="btn go2 hidden" id="nextQ">${QS.i===n-1?'Lihat Keputusan':'Seterusnya'} ${I('arrow')}</button></div>`;
- v.className='view '+cls;
+ v.className='view '+cls+(QS.quiz?' quizmode':'');document.body.classList.toggle('inquiz',!!QS.quiz);window.scrollTo(0,0);
  v.innerHTML=`<div class="qhead ${cls}"><button class="iconbtn" id="quitQ" aria-label="Kembali ke menu">${I('back')}</button><div class="t"><small>${QS.quiz?'KUIZ PANTAS · '+T.name.toUpperCase():'LATIHAN · '+T.name.toUpperCase()}</small><b class="h">Soalan ${QS.i+1} / ${n}</b></div>${QS.quiz?`<span class="timer" id="tm">${I('clock')}<span>60</span></span>`:''}${starPill()}${soundBtn()}</div>
  <div class="qbar ${cls}"><i style="width:${(QS.i)/n*100}%"></i></div>
  <div class="qwrap ${cls}"><div class="card"><p class="qtext">${Q.q}</p><div class="qexpr h">${Q.expr}</div>${Q.blocks&&!QS.quiz?blocksHTML(Q.blocks):''}</div><div>${right}</div></div>`;
@@ -511,10 +530,10 @@ function answerQuiz(i){
  stopTimer();const Q=QS.qs[QS.i],ch=QS.ch,fb=document.getElementById('fb');const ok=i>=0&&ch.list[i]===ch.right;
  document.querySelectorAll('.choice').forEach((b,j)=>{b.disabled=true;if(ch.list[j]===ch.right)b.classList.add('ok');else if(j===i)b.classList.add('no')});
  beep(ok);if(ok){QS.score++;S.stars++;save();updStars()}
- fb.innerHTML=`<div class="fb ${ok?'ok':'no'}" style="margin-top:12px"><b class="big">${ok?'✓ Betul! +1 bintang':i<0?'⏰ Masa tamat':'✗ Belum tepat'}</b>${ok?'':'Jawapan betul: <b>'+ch.right+'</b><br>'}${Q.sol}</div>`;
+ fb.innerHTML=`<div class="fb ${ok?'ok':'no'}"><b class="big">${ok?'✓ Betul! +1 bintang':i<0?'⏰ Masa tamat':'✗ Belum tepat'}</b>${ok?'':'Jawapan betul: <b>'+ch.right+'</b><br>'}${Q.sol}</div>`;
  document.getElementById('nextQ').classList.remove('hidden')}
 function renderResult(){
- stopTimer();const v=document.getElementById('view'),n=QS.qs.length,sc=QS.score;let msg,cls;
+ stopTimer();document.body.classList.remove('inquiz');const v=document.getElementById('view'),n=QS.qs.length,sc=QS.score;let msg,cls;
  if(QS.quiz){cls='cg';msg=sc>=8?'Hebat! Anda menguasai algebra.':sc>=5?'Bagus! Teruskan berlatih.':'Jangan putus asa — ulang kaji nota dan cuba lagi.'}
  else{const T=TOPICS.find(t=>t.id===QS.topic);cls=T.cls;const pass=sc>=3;S.best[QS.topic]=Math.max(S.best[QS.topic]||0,sc);
   if(pass)S.prog[QS.topic]=Math.min(3,(S.prog[QS.topic]||0)+1);save();
@@ -531,7 +550,7 @@ function bindCommon(){const s=document.getElementById('snd');if(s)s.onclick=()=>
 /* =================== Penghala =================== */
 const TITLES={utama:'Utama',nota:'Nota',simulasi:'Simulasi',latihan:'Latihan',kuiz:'Kuiz',pasang:'Cara Pasang'};
 function route(){
- stopTimer();QS=null;
+ stopTimer();QS=null;document.body.classList.remove('inquiz');
  const [r,param]=(location.hash.replace(/^#\/?/,'')||'').split('/');
  if(!r){root.innerHTML=VIEWS.splash();document.title='ALGEBRALAB – Ungkapan & Persamaan Algebra';window.scrollTo(0,0);return}
  if(r==='pasang'){root.innerHTML=VIEWS.pasang();document.title='Cara Pasang · ALGEBRALAB';window.scrollTo(0,0);return}
