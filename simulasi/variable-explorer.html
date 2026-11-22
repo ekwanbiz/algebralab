@@ -78,12 +78,60 @@ input:focus{border-color:#5dd7f5}input.bad{border-color:#e67a8b;box-shadow:0 0 0
 .footer{font-size:12px;color:#7D75A3;margin-top:4px}
 @keyframes boxin{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
 @media(max-width:640px){.wrap{padding:12px}.panel{padding:14px}.ctl-inputs{flex-direction:column}.stage{padding:18px 8px;min-height:240px}.token{min-width:44px;min-height:42px;padding:7px 10px;border-radius:10px}.eqwrap{gap:6px}.side{min-height:130px;padding:20px 5px 10px}.eqsign{font-size:30px}.group{min-width:96px;padding:10px 8px 8px}.speed{margin-left:0}.eyebrow{font-size:10px;letter-spacing:.08em}}
+
+/* ===== Padat satu halaman ===== */
+html,body{height:100%}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+#backAL{flex:none}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.wrap{flex:1;min-height:0;width:100%;display:flex;flex-direction:column;gap:8px;padding:10px 12px}
+.wrap>section.panel{margin:0;padding:10px 12px}
+.wrap>section.panel:last-of-type{flex:1;min-height:0;display:flex;flex-direction:column}
+.ctl-inputs{flex-direction:row!important;gap:8px}
+input{padding:9px 12px;font-size:18px}
+.primary{padding:9px 14px}
+.formerr{margin-top:6px;padding:7px 10px;font-size:12.5px}
+.stepbar{margin-bottom:6px;flex-wrap:nowrap}
+.steptitle{font-size:16px;min-width:0;display:flex;align-items:baseline;gap:8px;white-space:nowrap;overflow:hidden}
+.steptitle small{display:inline;margin:0;font-size:10.5px}
+.steptitle span{overflow:hidden;text-overflow:ellipsis}
+.stage{flex:1;min-height:110px;padding:10px 8px;overflow:auto}
+.formula{margin-top:6px;min-height:0;font-size:clamp(16px,2.4vw,22px)}
+.desc{margin:3px auto 0;font-size:12.5px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.controls{margin-top:6px;gap:6px}
+.controls button{padding:7px 12px;font-size:13px;border-radius:9px}
+.speed{font-size:12px}.speed select{padding:5px}
+.result{margin-top:6px;padding:6px 12px;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
+.result.hidden{display:none!important}
+.result b{font-size:10.5px}.result strong{font-size:clamp(18px,3vw,24px);margin:0}.result small{font-size:12px}
+.side{min-height:0;padding:20px 8px 8px}
+.group{padding:8px 8px 6px;gap:6px;min-width:90px}.gitems{min-height:0;gap:6px}.gcalc{font-size:12.5px;padding:3px 8px}
+.board{gap:8px}
+@media(max-width:640px){
+ .wrap{padding:8px;gap:6px}
+ .wrap>section.panel{padding:8px;border-radius:14px}
+ input{font-size:17px;padding:8px 10px}.primary{padding:8px 10px;font-size:14px}
+ .modechip{display:none}
+ .stage{padding:8px 4px;min-height:96px;border-radius:12px}
+ .token{min-width:36px;min-height:34px;padding:4px 7px;font-size:16px;border-radius:8px}
+ .token.br{font-size:14px}
+ .side{padding:16px 4px 6px;border-radius:12px}.sidelabel{font-size:8.5px;top:4px;left:7px}
+ .eqsign{font-size:22px}.eqwrap{gap:4px}
+ .badge{font-size:12.5px;padding:3px 8px}
+ .verdict{font-size:15px;padding:6px}
+ .group{min-width:72px;padding:6px 5px 5px}.glabel{font-size:9px}.glabel.raw{font-size:12px}.gcalc{font-size:11px}
+ .formula{font-size:16px}
+ .desc{font-size:11.5px}
+ .controls{flex-wrap:nowrap}.controls button{padding:7px 9px;font-size:12px}
+ .speed{font-size:0;gap:0}.speed select{font-size:12px}
+ .result small{display:none}
+}
 </style><style id="nozoom">html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style></head><body><div id="backAL" style="padding:calc(16px + env(safe-area-inset-top)) 16px 0;position:relative;z-index:50;max-width:1300px;margin:auto"><a href="../index.html#/simulasi" style="display:inline-flex;align-items:center;gap:10px;background:#FF6FB1;color:#2b0718;border-radius:14px;padding:12px 22px;font:900 17px Inter,system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px #ff6fb144">&#8592; Kembali ke ALGEBRALAB</a></div><script>if(window.top!==window.self)document.getElementById("backAL").style.display="none"</script><div class="wrap">
 
 
 <section class="panel">
- <label class="field" for="expr">MASUKKAN UNGKAPAN ATAU PERSAMAAN</label>
- <div class="ctl-inputs"><input id="expr" value="3x + 2y + 5x − 4y + 3" spellcheck="false" autocomplete="off" aria-describedby="formErr"><button class="primary" id="generate">Jana Simulasi</button></div>
+ <label class="field sr" for="expr">MASUKKAN UNGKAPAN ATAU PERSAMAAN</label>
+ <div class="ctl-inputs"><input id="expr" placeholder="Taip ungkapan atau persamaan" value="3x + 2y + 5x − 4y + 3" spellcheck="false" autocomplete="off" aria-describedby="formErr"><button class="primary" id="generate">Jana Simulasi</button></div>
  <div class="formerr hidden" id="formErr" role="alert"></div>
 </section>
 
@@ -96,10 +144,8 @@ input:focus{border-color:#5dd7f5}input.bad{border-color:#e67a8b;box-shadow:0 0 0
   <button id="prev">◀ Sebelum</button><button id="play" class="play">▶ Main</button><button id="next">Seterusnya ▶</button>
   <label class="speed" for="speed">Kelajuan <select id="speed"><option value="3000">0.5×</option><option value="2000" selected>1×</option><option value="1400">1.5×</option><option value="1000">2×</option></select></label>
  </div>
- <div class="steps" id="steps"></div>
  <div class="result hidden" id="result"><b>JAWAPAN AKHIR</b><strong id="answer"></strong><small id="check"></small></div>
 </section>
-<div class="footer">Variable Explorer · AlgebraLab · Versi 4</div>
 </div><script>
 'use strict';
 const $=id=>document.getElementById(id);
@@ -352,7 +398,7 @@ function show(i,animate=true){
  $('stepno').textContent='LANGKAH '+(idx+1)+' / '+frames.length;$('stepname').textContent=f.name;
  $('formula').textContent=f.formula;$('desc').textContent=f.desc;
  $('prev').disabled=idx===0;$('next').disabled=idx===frames.length-1;$('play').disabled=idx===frames.length-1&&!timer;
- const st=$('steps');st.replaceChildren();frames.forEach((fr,j)=>{const b=document.createElement('button');b.textContent=(j+1)+'. '+fr.name;b.className=j<idx?'done':j===idx?'now':'';b.onclick=()=>{stop();show(j)};st.append(b)});
+ 
  const last=idx===frames.length-1;$('result').classList.toggle('hidden',!last);
  if(last){$('answer').textContent=f.answer||f.formula;$('check').textContent=f.note||''}
  if(last)stop();
