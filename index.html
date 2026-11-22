@@ -141,6 +141,16 @@ main{padding:42px 40px 60px;max-width:1000px;width:100%}
 .simcard.soon .btn{background:var(--sf2);color:var(--mu);cursor:default}
 .badge-soon{display:inline-block;font-size:11px;font-weight:850;letter-spacing:.08em;color:var(--c2);border:1px solid #ffb54755;border-radius:20px;padding:3px 9px;margin-bottom:8px}
 
+/* Halaman pilihan simulasi: penuh satu skrin */
+main.pickpage{height:100vh;height:100dvh;display:flex;flex-direction:column}main.wide.pickpage{padding:34px 34px 28px}
+main.pickpage .ph{flex:none;margin-bottom:16px}
+main.pickpage .pick{flex:1;min-height:0;max-width:none;grid-template-rows:minmax(0,1fr);gap:18px}
+main.pickpage .pcard{min-height:0;padding:16px;gap:14px}
+main.pickpage .ppv{flex:1;height:auto;min-height:0}
+main.pickpage .ppv svg{width:88%;height:auto;max-height:92%}
+.prow{display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+main.pickpage .ptx b{font-size:21px}main.pickpage .ptx small{font-size:14px}main.pickpage .pno{font-size:11.5px}
+main.pickpage .pgo{padding:11px 16px;font-size:15px;flex:none}
 /* Pilihan simulasi (kecil, satu skrin) */
 .pick{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:900px}
 .pcard{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:10px;transition:.2s}
@@ -254,6 +264,16 @@ main.wide{max-width:none;padding:26px 28px 24px}
  .practmode .blocks{margin-top:8px;gap:5px}.practmode .blk{padding:4px 8px;font-size:13px;border-width:1.5px}
  .practmode .ahelp{display:none}
  .pick{grid-template-columns:1fr;gap:10px}
+ main.wide.pickpage{padding:calc(20px + env(safe-area-inset-top)) 14px calc(124px + env(safe-area-inset-bottom))}
+ main.pickpage .ph{margin-bottom:12px}
+ main.pickpage .pick{grid-template-columns:1fr;grid-template-rows:repeat(3,minmax(0,1fr));gap:10px}
+ main.pickpage .pcard{flex-direction:column;align-items:stretch;padding:10px;gap:8px}
+ main.pickpage .ppv{width:100%;flex:1;border-radius:12px}
+ main.pickpage .ppv svg{width:auto;height:94%;max-width:92%;max-height:94%}
+ main.pickpage .prow{flex-direction:row;align-items:center;justify-content:space-between;gap:10px}
+ main.pickpage .ptx b{font-size:16px}main.pickpage .ptx small{font-size:12px}main.pickpage .pno{font-size:10px}
+ main.pickpage .pgo{padding:9px 13px;font-size:13.5px}
+ main.pickpage .ph h1{font-size:30px;margin:2px 0 2px}
  .pcard{flex-direction:row;align-items:center;padding:10px;gap:12px}
  .ppv{width:92px;height:70px;flex:none;border-radius:10px}.ppv svg{width:100%;max-height:66px}
  .ptx{flex:1;min-width:0}.ptx b{font-size:15.5px}.ptx small{font-size:12px}
@@ -489,7 +509,7 @@ const VIEWS={
    <div class="card warn"><h2 class="h">Kesilapan Biasa</h2><ul>${N.err.map(e=>`<li>${e}</li>`).join('')}</ul></div>
    <a class="btn full ${T.cls}" href="#/simulasi/${sim.id}">Cuba Simulasi ${sim.name} ${I('arrow')}</a></div></div>`},
  simulasi(param){if(!SIMS.some(x=>x.id===param))return head('ALGEBRALAB','Simulasi','Pilih satu simulasi untuk dimulakan.','','c3')+
-  `<div class="pick">${SIMS.map(x=>`<a class="pcard ${x.cls}" href="#/simulasi/${x.id}"><div class="ppv">${simPreview(x.pv)}</div><div class="ptx"><span class="pno">SIMULASI ${x.no}</span><b class="h">${x.name}</b><small>${x.short}</small></div><span class="pgo">Buka ${I('arrow')}</span></a>`).join('')}</div>`;
+  `<div class="pick">${SIMS.map(x=>`<a class="pcard ${x.cls}" href="#/simulasi/${x.id}"><div class="ppv">${simPreview(x.pv)}</div><div class="prow"><div class="ptx"><span class="pno">SIMULASI ${x.no}</span><b class="h">${x.name}</b><small>${x.short}</small></div><span class="pgo">Buka ${I('arrow')}</span></div></a>`).join('')}</div>`;
   const S1=SIMS.find(x=>x.id===param);
   return`<div class="simtop"><h1 class="h" style="position:absolute;left:-9999px">Simulasi ${S1.name}</h1><a class="backbig" href="#/simulasi">${I('back')}Kembali</a>
   <a class="fullbtn" href="${S1.file}" target="_blank" rel="noopener">Skrin penuh ↗</a></div>
@@ -577,7 +597,8 @@ function route(){
  if(r==='pasang'){root.innerHTML=VIEWS.pasang();document.title='Cara Pasang · ALGEBRALAB';window.scrollTo(0,0);return}
  const key=VIEWS[r]&&r!=='splash'?r:'utama';
  document.body.classList.toggle('insim',key==='simulasi'&&SIMS.some(x=>x.id===param));
- root.innerHTML=shell(key,VIEWS[key](param));document.title=(TITLES[key]||'Utama')+' · ALGEBRALAB';window.scrollTo(0,0);
+ root.innerHTML=shell(key,VIEWS[key](param));
+ if(key==='simulasi'&&!SIMS.some(x=>x.id===param))document.getElementById('view').classList.add('pickpage');document.title=(TITLES[key]||'Utama')+' · ALGEBRALAB';window.scrollTo(0,0);
  bindCommon();
  document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{location.hash='#/nota/'+b.dataset.tab});
  document.querySelectorAll('[data-start]').forEach(b=>b.onclick=()=>startSet(b.dataset.start,false));
