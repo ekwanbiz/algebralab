@@ -144,7 +144,7 @@ main{padding:42px 40px 60px;max-width:1000px;width:100%}
 .pgo{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;background:var(--c);color:#140f24;font-weight:800;font-size:13.5px;border-radius:10px;padding:8px 13px}
 .pgo svg{width:16px;height:16px}
 /* Simulasi satu halaman */
-.backbig{display:inline-flex;align-items:center;gap:10px;background:var(--c3);color:#2b0718;font-weight:900;font-size:17px;border-radius:14px;padding:12px 22px;box-shadow:0 8px 22px #ff6fb144}
+.backbig{position:relative;z-index:5;touch-action:manipulation;-webkit-tap-highlight-color:transparent;min-height:50px;display:inline-flex;align-items:center;gap:10px;background:var(--c3);color:#2b0718;font-weight:900;font-size:17px;border-radius:14px;padding:12px 22px;box-shadow:0 8px 22px #ff6fb144}
 .backbig svg{width:22px;height:22px;stroke-width:2.6}
 .backbig:hover{filter:brightness(1.08)}
 main.wide{max-width:none;padding:26px 28px 24px}
@@ -155,7 +155,7 @@ main.wide{max-width:none;padding:26px 28px 24px}
 .simtabs a b{font-size:11px;letter-spacing:.06em;border:1px solid currentColor;border-radius:20px;padding:1px 7px}
 .simtabs a:hover{color:var(--tx);background:var(--sf2)}
 .simtabs a.on{background:var(--c);color:#140f24}
-.simframe{width:100%;height:calc(100vh - 118px);min-height:520px;border:1px solid var(--bd);border-radius:18px;background:var(--bg);display:block}
+.simframe{width:100%;height:calc(100vh - 118px);height:calc(100dvh - 118px - env(safe-area-inset-top));min-height:520px;border:1px solid var(--bd);border-radius:18px;background:var(--bg);display:block}
 .fullbtn{font-size:13px;color:var(--mu);display:inline-flex;align-items:center;gap:6px;border:1px solid var(--bd2);border-radius:10px;padding:7px 11px}
 .fullbtn:hover{color:var(--tx);background:var(--sf)}
 /* Latihan / Kuiz */
@@ -221,16 +221,16 @@ main.wide{max-width:none;padding:26px 28px 24px}
  .ppv{width:92px;height:70px;flex:none;border-radius:10px}.ppv svg{width:100%;max-height:66px}
  .ptx{flex:1;min-width:0}.ptx b{font-size:15.5px}.ptx small{font-size:12px}
  .pgo{align-self:center;padding:8px 10px;font-size:12.5px}
- main.wide{padding:14px 10px 96px}
+ main.wide{padding:calc(22px + env(safe-area-inset-top)) 10px 96px}
  .backbig{width:100%;justify-content:center;font-size:17px;padding:12px}
  .simtop h1{font-size:23px}.simtabs{width:100%}.simtabs a{flex:1;justify-content:center;padding:9px 6px;font-size:12.5px;flex-direction:column;gap:3px;text-align:center}
- .simframe{height:calc(100vh - 205px);min-height:440px;border-radius:14px}
+ .simframe{height:calc(100vh - 220px);height:calc(100dvh - 220px - env(safe-area-inset-top));min-height:440px;border-radius:14px}
  .fullbtn{display:none}
- .splash{grid-template-columns:1fr;padding:40px 22px 30px;gap:30px}
+ .splash{grid-template-columns:1fr;padding:calc(40px + env(safe-area-inset-top)) 22px 30px;gap:30px}
  .logo-big{width:118px;height:118px;border-radius:28px}.logo-big svg{width:88px;height:88px}
  .app{grid-template-columns:1fr}
  .side{display:none}
- main{padding:26px 18px 120px}
+ main{padding:calc(26px + env(safe-area-inset-top)) 18px 120px}
  .tiles{grid-template-columns:1fr 1fr;gap:12px}
  .bars{grid-template-columns:1fr;gap:12px}
  .cols,.qwrap{grid-template-columns:1fr}
@@ -463,7 +463,7 @@ const VIEWS={
   <li>${I('clock')}<span><b>1 minit</b> bagi setiap soalan</span></li><li>${I('star')}<span><b>1 bintang</b> bagi setiap jawapan betul</span></li>
   <li>${I('pen')}<span>Tiada petunjuk. Jawapan betul ditunjukkan selepas setiap soalan.</span></li></ul>
   <button class="btn full" id="startQuiz">Mula Kuiz ${I('arrow')}</button></div>`},
- pasang(){return`<div style="max-width:720px;margin:auto;padding:40px 22px 60px" class="view"><a class="btn sec" href="#/">${I('back')} Kembali</a>
+ pasang(){return`<div style="max-width:720px;margin:auto;padding:calc(40px + env(safe-area-inset-top)) 22px 60px" class="view"><a class="btn sec" href="#/">${I('back')} Kembali</a>
   ${head('ALGEBRALAB','Cara Pasang di Telefon','Pasang ALGEBRALAB seperti aplikasi — boleh dibuka tanpa internet selepas itu.')}
   <div class="col"><div class="card c1"><h2 class="h">Android (Chrome)</h2><ol class="steps2"><li>Buka laman ALGEBRALAB dalam Chrome.</li><li>Tekan menu ${I('dots')} di penjuru kanan atas.</li><li>Pilih <b>Tambah ke skrin utama</b> atau <b>Pasang aplikasi</b>.</li><li>Tekan <b>Pasang</b>. Ikon ALGEBRALAB akan muncul di skrin utama.</li></ol></div>
   <div class="card c3"><h2 class="h">iPhone / iPad (Safari)</h2><ol class="steps2"><li>Buka laman ALGEBRALAB dalam Safari.</li><li>Tekan butang Kongsi ${I('share')} di bawah.</li><li>Pilih <b>Add to Home Screen</b> (Tambah ke Skrin Utama).</li><li>Tekan <b>Add</b>.</li></ol></div>
