@@ -1,5 +1,5 @@
 // ALGEBRALAB – guna versi terbaru bila ada internet, salinan simpanan bila luar talian
-const CACHE='algebralab-v22';
+const CACHE='algebralab-v23';
 const FILES=['./','./index.html','./manifest.webmanifest','./icons/logo.svg','./icons/icon-192.png','./icons/icon-512.png','./simulasi/algebra-tiles.html','./simulasi/balance-equation.html','./simulasi/variable-explorer.html'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
